@@ -1,0 +1,25 @@
+---
+title: "NCBirths Analysis"
+author: "Matt Robinson, Athena Higgins, Ethan Sennett, Peter Nguyen"
+date: "11/23/2016"
+output: pdf_document
+---
+
+```{r setup}
+library(Stat2Data)
+data(NCbirths)
+```
+
+## Final Project
+
+For our final project, based on the NCbirths dataset, we will explore factors related to childbirth data at a particular hospital. Variables included details about the mother (age, smoking status, race, weight gained during pregnancy etc.) and information about the infant (weight, weeks gestation, etc.). Examining relationships among these factors provides insight into the complexity of pregnancy for women and their infants, and the plethora of variables which influence childbirth. Some interesting relationships and interactions that we hope to explore include:
+
+
+Athena- Marital, RaceMom, MomAge
+Ethan- Marital, MomAge, Gained
+Matthew- Marital, BirthWeightOz, Weeks
+Peter- Marital, BirthWeightOz, Plural
+
+
+Analyzing the data, through lenses shaped by these factors, allows us to tell intriguing social and biological stories about women’s pregnancy experiences. All four of us included marital status among our variables for exploration, providing a “common thread” of analysis. Ultimately, we hope to conduct a comprehensive analysis of marital influence on pregnancy and childbirth. 
+
