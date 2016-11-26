@@ -5,21 +5,77 @@ date: "11/23/2016"
 output: pdf_document
 ---
 
-```{r setup}
+```{r setup, echo=FALSE}
 library(Stat2Data)
 data(NCbirths)
 ```
 
-## Final Project
+# Table of Contents
 
-For our final project, based on the NCbirths dataset, we will explore factors related to childbirth data at a particular hospital. Variables included details about the mother (age, smoking status, race, weight gained during pregnancy etc.) and information about the infant (weight, weeks gestation, etc.). Examining relationships among these factors provides insight into the complexity of pregnancy for women and their infants, and the plethora of variables which influence childbirth. Some interesting relationships and interactions that we hope to explore include:
+1. Project Overview
+2. Individual Data Analyses
+    + Race vs Age
+    + Weight Gained vs Age
+    + Child Weight vs Weeks of Gestation
+    + Child Weight vs Multiple Births
+3. Conclusion
+
+\newpage
+
+## Project Overview
+
+For our final project, based on the NCbirths dataset, we will explore factors related to childbirth data at a particular hospital. The NCbirths dataset includes the following variables that will be useful in exploring the stories contained in this dataset.
+
+**Variable**   |  **Explanation**
+-------------- | -----------------
+MomAge         | The mothers age.
+Marital        | The marital status of the mother. 1 = married, 2 = not married.
+MomRace        | Mother's race: black, hispanic, other, or white.
+Gained         | The amount of weight gained during pregnancy (in pounds).
+BirthWeightOz	 | The birth weight of the child (in ounces).
+Weeks          | The number of completed weeks of gestation.
+Plural         | Multiple birth indicator. 1=single birth, 2=twins, 3=triplets.
 
 
-Athena- Marital, RaceMom, MomAge
-Ethan- Marital, MomAge, Gained
-Matthew- Marital, BirthWeightOz, Weeks
-Peter- Marital, BirthWeightOz, Plural
+details about the mother (age, smoking status, race, weight gained during pregnancy etc.) and information about the infant (weight, weeks gestation, etc.). Examining relationships among these factors provides insight into the complexity of pregnancy for women and their infants, and the plethora of variables which influence childbirth. Some interesting relationships and interactions that we will explore in this report include:
+
+1. The relationship between the mothers marital status, race and age.
+2. The relationship between the mothers marital status, weight gained during pregnancy and age.
+3. The relationship between the mothers marital status, the childs weight at birth and number of weeks of gestation.
+4. The relationship between the mothers marital status, the childs weight at birth and whether or not the child was a twin or triplet.
+
+Analyzing the data, through lenses shaped by these factors, allows us to tell intriguing social and biological stories about women’s pregnancy experiences. All of these analyses will incorporate marital status as a categorical factor to provide a comprehensive analysis of marital influence on pregnancy and childbirth.
+
+We will use our analysis to prove or disprove the following hypotheses regarding marital status and pregnancy:
+
+1. Hypothesis 1
+2. Hypothesis 2?
 
 
-Analyzing the data, through lenses shaped by these factors, allows us to tell intriguing social and biological stories about women’s pregnancy experiences. All four of us included marital status among our variables for exploration, providing a “common thread” of analysis. Ultimately, we hope to conduct a comprehensive analysis of marital influence on pregnancy and childbirth. 
+
+\newpage
+
+## Race and Age
+
+
+
+\newpage
+
+## Weight Gained and Age
+
+
+
+\newpage
+
+## Child Weight and Weeks of Gestation
+
+
+
+\newpage
+
+## Child Weight and Multiple Births
+
+
+
+\newpage
 
