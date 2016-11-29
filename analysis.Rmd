@@ -52,7 +52,11 @@ We will use our analysis to prove or disprove the following hypotheses regarding
 1. Hypothesis 1
 2. Hypothesis 2?
 
+## Code for Missing Data, example
 
+NCbirths$MomAge_mis <- factor(is.na(NCbirths$MomAge))
+mosaic::tally(~MomAge|MomAge_mis, data=NCbirths)
+NCbirths1 <- dplyr::filter(NCbirths, MomAge_mis==FALSE)
 
 \newpage
 
