@@ -12,7 +12,6 @@ data(NCbirths)
 ```
 
 # Table of Contents
-Our project is great
 
 1. Project Overview
 2. Individual Data Analyses
