@@ -2,7 +2,7 @@
 title: "NCBirths Analysis"
 author: "Matt Robinson, Athena Higgins, Ethan Sennett, Peter Nguyen"
 date: "11/23/2016"
-output: pdf_document
+output: html_document
 ---
 
 ```{r setup, echo=FALSE}
@@ -50,12 +50,15 @@ Analyzing the data, through lenses shaped by these factors, allows us to tell in
 We will use our analysis to prove or disprove the following hypotheses regarding marital status and pregnancy:
 
 1. Hypothesis 1
-2. Hypothesis 2?
+
+2. Hypothesis / Exploration 2- Interpreting data related to marital status, race, and age will allow for an intriguing discussion of social factors related to childbirth, and insight into the influence of these factors on pregnancy. Marital status and race are not biological factors, and thus should have no physical influence on childbirth. When different patterns emerge in the childbirth data, with respect to these variables, trends could indicate the influence of social pressures and climate on childbirth. 
 
 ## Code for Missing Data, example
 
 NCbirths$MomAge_mis <- factor(is.na(NCbirths$MomAge))
+#
 mosaic::tally(~MomAge|MomAge_mis, data=NCbirths)
+#
 NCbirths1 <- dplyr::filter(NCbirths, MomAge_mis==FALSE)
 
 \newpage
