@@ -54,12 +54,12 @@ We will use our analysis to prove or disprove the following hypotheses regarding
 
 ## Code for Missing Data, example
 
-NCbirths$MomAge_mis <- factor(is.na(NCbirths$MomAge))
-mosaic::tally(~MomAge|MomAge_mis, data=NCbirths)
-NCbirths1 <- dplyr::filter(NCbirths, MomAge_mis==FALSE)
+```{r}
+head(NCbirths[!complete.cases(NCbirths),])
+NCbirths1<-na.omit(NCbirths)
+```
 
-NCbirths[!complete.cases(NCbirths),]
-NCbirths2<-na.omit(NCbirths)
+Using R, we were able to find 41 observations where at least 1 variable had missing data. We decided to discard all 41 observations, since it wouldn't be taking too much away from the whole population in the dataset. Therefore, all of our visualizations and analyses use this cleaned dataset (NCbirths1).
 
 
 \newpage
