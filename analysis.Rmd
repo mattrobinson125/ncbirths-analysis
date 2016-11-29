@@ -60,8 +60,17 @@ We will use our analysis to prove or disprove the following hypotheses regarding
 
 ## Code for Missing Data, example
 
+<<<<<<< HEAD
 NCbirths[!complete.cases(NCbirths),]
 NCbirths2<-na.omit(NCbirths)
+=======
+```{r}
+head(NCbirths[!complete.cases(NCbirths),])
+NCbirths1<-na.omit(NCbirths)
+```
+
+Using R, we were able to find 41 observations where at least 1 variable had missing data. We decided to discard all 41 observations, since it wouldn't be taking too much away from the whole population in the dataset. Therefore, all of our visualizations and analyses use this cleaned dataset (NCbirths1).
+>>>>>>> origin/master
 
 
 \newpage
