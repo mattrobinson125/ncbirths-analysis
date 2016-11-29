@@ -58,6 +58,10 @@ NCbirths$MomAge_mis <- factor(is.na(NCbirths$MomAge))
 mosaic::tally(~MomAge|MomAge_mis, data=NCbirths)
 NCbirths1 <- dplyr::filter(NCbirths, MomAge_mis==FALSE)
 
+NCbirths[!complete.cases(NCbirths),]
+NCbirths2<-na.omit(NCbirths)
+
+
 \newpage
 
 ## Race and Age
