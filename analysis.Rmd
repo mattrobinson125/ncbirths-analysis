@@ -49,8 +49,8 @@ Analyzing the data, through lenses shaped by these factors, allows us to tell in
 
 We will use our analysis to prove or disprove the following hypotheses regarding marital status and pregnancy:
 
-1. Hypothesis 1
-2. Hypothesis 2?
+1. Births involving a single mother will exhibit a higher weight gained during pregnancy, a lower average of weeks of gestation and a lower average child weight at birth.
+
 
 ## Code for Missing Data, example
 
