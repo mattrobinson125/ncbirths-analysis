@@ -60,12 +60,6 @@ We will use our analysis to prove or disprove the following hypotheses regarding
 
 ## Code for Missing Data, example
 
-NCbirths$MomAge_mis <- factor(is.na(NCbirths$MomAge))
-#
-mosaic::tally(~MomAge|MomAge_mis, data=NCbirths)
-#
-NCbirths1 <- dplyr::filter(NCbirths, MomAge_mis==FALSE)
-
 NCbirths[!complete.cases(NCbirths),]
 NCbirths2<-na.omit(NCbirths)
 
@@ -73,8 +67,10 @@ NCbirths2<-na.omit(NCbirths)
 \newpage
 
 ## Race and Age
-
-
+```{r}
+ggplot(NCbirths, aes(MomAge, Marital, color = RaceMom)) + geom_point() + ggtitle("Age, Marital Status")
+```
+(1=white, 2=black, 3=American Indian, 4=Chinese, 5=Japanese, 6=Hawaiian, 7=Filipino, or 8=Other Asian or Pacific Islander)
 
 \newpage
 
