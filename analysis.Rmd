@@ -2,7 +2,9 @@
 title: "NCbirths Analysis"
 author: "Matt Robinson, Athena Higgins, Ethan Sennett, Peter Nguyen"
 date: "11/30/2016"
-output: pdf_document
+output: 
+  pdf_document:
+    toc: true
 ---
 
 ```{r setup, echo=FALSE}
@@ -13,14 +15,10 @@ NCbirths1<-na.omit(NCbirths)
 
 ```
 
-# Table of Contents
+\newpage
 
-1. Project Overview
-2. Visualization of Data
-3. Conclusion
-
-
-# 1. Project Overview
+# 1. Group Analysis
+## Project Overview
 
 For our final project, based on the NCbirths dataset, we will explore factors related to childbirth data at a particular hospital. The NCbirths dataset includes the following variables that will be useful in exploring the stories contained in this dataset.
 
@@ -28,13 +26,12 @@ For our final project, based on the NCbirths dataset, we will explore factors re
 -------------- | -----------------
 MomAge         | The mothers age.
 Marital        | The marital status of the mother. 1 = married, 2 = not married.
-MomRace        | Mother's race: 1=white, 2=black, 3=American Indian, 4=Chinese, 5=Japanese, 6=Hawaiian, 7=Filipino, 8=Other Asian or Pacific Islander
+MomRace        | Mother's race: 1=white, 2=black, 3=American Indian, 4=Chinese, 
+&nbsp;         | 5=Japanese, 6=Hawaiian, 7=Filipino, 8=Other Asian or Pacific Islander
 Gained         | The amount of weight gained during pregnancy (in pounds).
 BirthWeightOz	 | The birth weight of the child (in ounces).
 Weeks          | The number of completed weeks of gestation.
 Plural         | Multiple birth indicator. 1=single birth, 2=twins, 3=triplets.
-
-
 
 
 
@@ -55,7 +52,7 @@ We will use our analysis to prove or disprove the following hypotheses regarding
 
 
 
-### Missing Data
+## Missing Data
 ```{r, echo=FALSE,eval=FALSE}
 # Code for Missing Data
 head(NCbirths[!complete.cases(NCbirths),])
@@ -64,7 +61,7 @@ head(NCbirths[!complete.cases(NCbirths),])
 Using R, we were able to find 41 observations where at least 1 variable had missing data. We decided to discard all 41 observations, since it wouldn't be taking too much away from the whole population in the dataset. Therefore, all of our visualizations and analyses use this cleaned dataset (NCbirths1).
 
 
-# 2. Visualization of Data
+## Visualization of Data
 
 The below plots provide some basic visualiazations of the data collected. The sample collected for this dataset provides ample sample points for the various values the variables can take on.
 
@@ -80,23 +77,4 @@ ggplot(NCbirths1, aes(MomAge, Marital, color = RaceMom)) + geom_point()
 
 ggplot(NCbirths1, aes(MomAge, Gained, color=factor(Marital))) + geom_point() + geom_smooth(method="lm")
 ```
-
-
-
-
-
-
-\newpage
-
-## Child Weight and Weeks of Gestation
-
-
-
-\newpage
-
-## Child Weight and Multiple Births
-
-
-
-\newpage
 
