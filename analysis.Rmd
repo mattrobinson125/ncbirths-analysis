@@ -1,7 +1,7 @@
 ---
-title: "NCBirths Analysis"
+title: "NCbirths Analysis"
 author: "Matt Robinson, Athena Higgins, Ethan Sennett, Peter Nguyen"
-date: "11/23/2016"
+date: "11/30/2016"
 output: pdf_document
 ---
 
@@ -9,21 +9,18 @@ output: pdf_document
 library(ggplot2)
 library(Stat2Data)
 data(NCbirths)
+NCbirths1<-na.omit(NCbirths)
+
 ```
 
 # Table of Contents
 
 1. Project Overview
-2. Individual Data Analyses
-    + Race vs Age
-    + Weight Gained vs Age
-    + Child Weight vs Weeks of Gestation
-    + Child Weight vs Multiple Births
+2. Visualization of Data
 3. Conclusion
 
-\newpage
 
-# Project Overview
+# 1. Project Overview
 
 For our final project, based on the NCbirths dataset, we will explore factors related to childbirth data at a particular hospital. The NCbirths dataset includes the following variables that will be useful in exploring the stories contained in this dataset.
 
@@ -31,21 +28,15 @@ For our final project, based on the NCbirths dataset, we will explore factors re
 -------------- | -----------------
 MomAge         | The mothers age.
 Marital        | The marital status of the mother. 1 = married, 2 = not married.
-MomRace        | Mother's race: black, hispanic, other, or white.
+MomRace        | Mother's race: 1=white, 2=black, 3=American Indian, 4=Chinese, 5=Japanese, 6=Hawaiian, 7=Filipino, 8=Other Asian or Pacific Islander
 Gained         | The amount of weight gained during pregnancy (in pounds).
 BirthWeightOz	 | The birth weight of the child (in ounces).
 Weeks          | The number of completed weeks of gestation.
 Plural         | Multiple birth indicator. 1=single birth, 2=twins, 3=triplets.
 
 
-The below plots provide some basic visualiazations of the data collected. The sample collected for this dataset provides ample sample points for the various values the variables can take on.
 
 
-```{r, fig.height=2, fig.width= 3.6, warning=FALSE, echo=FALSE}
-ggplot(NCbirths, aes(MomAge, Weeks, color=factor(MomRace))) + geom_point(size=.5) + labs(color="Race")
-
-qplot(Gained, data = NCbirths, geom = "density", color = factor(Marital)) + ylab("") + labs(color="Marital")
-```
 
 Examining relationships among these factors provides insight into the complexity of pregnancy for women and their infants, and the plethora of variables which influence childbirth. Some interesting relationships and interactions that we will explore in this report include:
 
@@ -65,33 +56,34 @@ We will use our analysis to prove or disprove the following hypotheses regarding
 
 
 ### Missing Data
-```{r, echo=FALSE}
+```{r, echo=FALSE,eval=FALSE}
+# Code for Missing Data
 head(NCbirths[!complete.cases(NCbirths),])
-NCbirths1<-na.omit(NCbirths)
 ```
 
 Using R, we were able to find 41 observations where at least 1 variable had missing data. We decided to discard all 41 observations, since it wouldn't be taking too much away from the whole population in the dataset. Therefore, all of our visualizations and analyses use this cleaned dataset (NCbirths1).
 
 
-\newpage
+# 2. Visualization of Data
 
-## Race and Age
-```{r fig.height = 3, fig.width = 4}
-ggplot(NCbirths1, aes(MomAge, Marital, color = RaceMom)) + geom_point() + ggtitle("Age, Marital Status")
-```
-(1=white, 2=black, 3=American Indian, 4=Chinese, 5=Japanese, 6=Hawaiian, 7=Filipino, or 8=Other Asian or Pacific Islander)
+The below plots provide some basic visualiazations of the data collected. The sample collected for this dataset provides ample sample points for the various values the variables can take on.
 
-\newpage
 
-## Weight Gained and Age
+```{r, fig.height=2, fig.width= 3.6, warning=FALSE, echo=FALSE}
+ggplot(NCbirths1, aes(MomAge, Weeks, color=factor(MomRace))) + geom_point(size=.5) + labs(color="Race")
 
-```{r}
-
-ggplot(NCbirths1, aes(MomAge, Gained, color=factor(Marital))) + geom_point() + geom_smooth(method="lm")+ggtitle("Weight Gained vs Age")
+qplot(Gained, data = NCbirths1, geom = "density", color = factor(Marital)) + ylab("") + labs(color="Marital")
 ```
 
-1 = married
-2 = not married
+```{r fig.height = 3, fig.width = 3.6,echo=FALSE}
+ggplot(NCbirths1, aes(MomAge, Marital, color = RaceMom)) + geom_point() 
+
+ggplot(NCbirths1, aes(MomAge, Gained, color=factor(Marital))) + geom_point() + geom_smooth(method="lm")
+```
+
+
+
+
 
 
 \newpage
