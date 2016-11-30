@@ -23,7 +23,7 @@ data(NCbirths)
 
 \newpage
 
-## Project Overview
+# Project Overview
 
 For our final project, based on the NCbirths dataset, we will explore factors related to childbirth data at a particular hospital. The NCbirths dataset includes the following variables that will be useful in exploring the stories contained in this dataset.
 
@@ -38,7 +38,11 @@ Weeks          | The number of completed weeks of gestation.
 Plural         | Multiple birth indicator. 1=single birth, 2=twins, 3=triplets.
 
 
-details about the mother (age, smoking status, race, weight gained during pregnancy etc.) and information about the infant (weight, weeks gestation, etc.). Examining relationships among these factors provides insight into the complexity of pregnancy for women and their infants, and the plethora of variables which influence childbirth. Some interesting relationships and interactions that we will explore in this report include:
+```{r, fig.height=4, warning=FALSE, echo=FALSE}
+ggplot(NCbirths, aes(MomAge, Weeks, color=factor(MomRace))) + geom_point() + ggtitle("Distribution of Mother Data")
+```
+
+Examining relationships among these factors provides insight into the complexity of pregnancy for women and their infants, and the plethora of variables which influence childbirth. Some interesting relationships and interactions that we will explore in this report include:
 
 1. The relationship between the mothers marital status, race and age.
 2. The relationship between the mothers marital status, weight gained during pregnancy and age.
@@ -56,7 +60,7 @@ We will use our analysis to prove or disprove the following hypotheses regarding
 
 
 ## Code for Missing Data, example
-```{r}
+```{r, echo=FALSE}
 head(NCbirths[!complete.cases(NCbirths),])
 NCbirths1<-na.omit(NCbirths)
 ```
@@ -67,7 +71,7 @@ Using R, we were able to find 41 observations where at least 1 variable had miss
 \newpage
 
 ## Race and Age
-```{r}
+```{r fig.height = 3, fig.width = 4}
 ggplot(NCbirths1, aes(MomAge, Marital, color = RaceMom)) + geom_point() + ggtitle("Age, Marital Status")
 ```
 (1=white, 2=black, 3=American Indian, 4=Chinese, 5=Japanese, 6=Hawaiian, 7=Filipino, or 8=Other Asian or Pacific Islander)
