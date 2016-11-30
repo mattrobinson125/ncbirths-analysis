@@ -2,7 +2,7 @@
 title: "NCBirths Analysis"
 author: "Matt Robinson, Athena Higgins, Ethan Sennett, Peter Nguyen"
 date: "11/23/2016"
-output: html_document
+output: pdf_document
 ---
 
 ```{r setup, echo=FALSE}
@@ -49,28 +49,19 @@ Analyzing the data, through lenses shaped by these factors, allows us to tell in
 
 We will use our analysis to prove or disprove the following hypotheses regarding marital status and pregnancy:
 
-<<<<<<< HEAD
 1. Hypothesis 1 -  Births involving a single mother will exhibit a higher weight gained during pregnancy, a lower average of weeks of gestation and a lower average child weight at birth.
 
 2. Hypothesis / Exploration 2- Interpreting data related to marital status, race, and age will allow for an intriguing discussion of social factors related to childbirth, and insight into the influence of these factors on pregnancy. Marital status and race are not biological factors, and thus should have no physical influence on childbirth. When different patterns emerge in the childbirth data, with respect to these variables, trends could indicate the influence of social pressures and climate on childbirth. 
-=======
 
 
->>>>>>> origin/master
 
 ## Code for Missing Data, example
-
-<<<<<<< HEAD
-NCbirths[!complete.cases(NCbirths),]
-NCbirths2<-na.omit(NCbirths)
-=======
 ```{r}
 head(NCbirths[!complete.cases(NCbirths),])
 NCbirths1<-na.omit(NCbirths)
 ```
 
 Using R, we were able to find 41 observations where at least 1 variable had missing data. We decided to discard all 41 observations, since it wouldn't be taking too much away from the whole population in the dataset. Therefore, all of our visualizations and analyses use this cleaned dataset (NCbirths1).
->>>>>>> origin/master
 
 
 \newpage
@@ -89,6 +80,7 @@ ggplot(NCbirths1, aes(MomAge, Marital, color = RaceMom)) + geom_point() + ggtitl
 
 ggplot(NCbirths1, aes(MomAge, Gained, color=factor(Marital))) + geom_point() + geom_smooth(method="lm")+ggtitle("Weight Gained vs Age")
 ```
+
 1 = married
 2 = not married
 
