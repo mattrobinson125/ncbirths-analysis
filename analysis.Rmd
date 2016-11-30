@@ -69,7 +69,7 @@ The below plots provide some basic visualiazations of the data collected. The sa
 
 
 ```{r, fig.height=2, fig.width= 3.6, warning=FALSE, echo=FALSE}
-ggplot(NCbirths1, aes(MomAge, Weeks, color=factor(MomRace))) + geom_point(size=.5) + labs(color="Race")
+ggplot(NCbirths1, aes(MomAge, Weeks, color=factor(MomRace))) + geom_point(size=.7) + labs(color="Race")
 
 qplot(Gained, data = NCbirths1, geom = "density", color = factor(Marital)) + ylab("") + labs(color="Marital")
 ```
@@ -77,6 +77,6 @@ qplot(Gained, data = NCbirths1, geom = "density", color = factor(Marital)) + yla
 ```{r fig.height = 3, fig.width = 3.6,echo=FALSE}
 ggplot(NCbirths1, aes(MomAge, Marital, color = RaceMom)) + geom_point() 
 
-ggplot(NCbirths1, aes(MomAge, Gained, color=factor(Marital))) + geom_point() 
+ggplot(NCbirths1, aes(MomAge, Gained, color=factor(Marital))) + geom_point(size=0.7) + labs(color="Marital")
 ```
 
