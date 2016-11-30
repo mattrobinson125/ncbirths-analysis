@@ -26,7 +26,7 @@ For our final project, based on the NCbirths dataset, we will explore factors re
 -------------- | -----------------
 MomAge         | The mothers age.
 Marital        | The marital status of the mother. 1 = married, 2 = not married.
-MomRace        | Mother's race: 1=white, 2=black, 3=American Indian, 4=Chinese, 
+RaceMom        | Mother's race: 1=white, 2=black, 3=American Indian, 4=Chinese, 
 &nbsp;         | 5=Japanese, 6=Hawaiian, 7=Filipino, 8=Other Asian or Pacific Islander
 Gained         | The amount of weight gained during pregnancy (in pounds).
 BirthWeightOz	 | The birth weight of the child (in ounces).
