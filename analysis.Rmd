@@ -50,7 +50,7 @@ We will use our analysis to prove or disprove the following hypotheses regarding
 
 2. Hypothesis / Exploration 2- Interpreting data related to marital status, race, and age will allow for an intriguing discussion of social factors related to childbirth, and insight into the influence of these factors on pregnancy. Marital status and race are not biological factors, and thus should have no physical influence on childbirth. When different patterns emerge in the childbirth data, with respect to these variables, trends could indicate the influence of social pressures and climate on childbirth. 
 
-3. Hypothesis 3 - Births involving a married mother who are having more than one child, where on average the children will have a higher birth weight. 
+3. Hypothesis 3 - Births involving a married mother where the child will have a higher average weight, and will be a twin. 
 
 
 
