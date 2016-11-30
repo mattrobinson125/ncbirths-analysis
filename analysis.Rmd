@@ -64,7 +64,7 @@ We will use our analysis to prove or disprove the following hypotheses regarding
 
 
 
-## Code for Missing Data, example
+### Missing Data
 ```{r, echo=FALSE}
 head(NCbirths[!complete.cases(NCbirths),])
 NCbirths1<-na.omit(NCbirths)
