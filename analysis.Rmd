@@ -38,8 +38,13 @@ Weeks          | The number of completed weeks of gestation.
 Plural         | Multiple birth indicator. 1=single birth, 2=twins, 3=triplets.
 
 
-```{r, fig.height=4, warning=FALSE, echo=FALSE}
-ggplot(NCbirths, aes(MomAge, Weeks, color=factor(MomRace))) + geom_point() + ggtitle("Distribution of Mother Data")
+The below plots provide some basic visualiazations of the data collected. The sample collected for this dataset provides ample sample points for the various values the variables can take on.
+
+
+```{r, fig.height=2, fig.width= 3.6, warning=FALSE, echo=FALSE}
+ggplot(NCbirths, aes(MomAge, Weeks, color=factor(MomRace))) + geom_point(size=.5) + labs(color="Race")
+
+qplot(Gained, data = NCbirths, geom = "density", color = factor(Marital)) + ylab("") + labs(color="Marital")
 ```
 
 Examining relationships among these factors provides insight into the complexity of pregnancy for women and their infants, and the plethora of variables which influence childbirth. Some interesting relationships and interactions that we will explore in this report include:
