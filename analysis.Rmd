@@ -50,11 +50,11 @@ Analyzing the data, through lenses shaped by these factors, allows us to tell in
 We will use our analysis to prove or disprove the following hypotheses regarding marital status and pregnancy:
 
 <<<<<<< HEAD
-1. Hypothesis 1
+1. Hypothesis 1 -  Births involving a single mother will exhibit a higher weight gained during pregnancy, a lower average of weeks of gestation and a lower average child weight at birth.
 
 2. Hypothesis / Exploration 2- Interpreting data related to marital status, race, and age will allow for an intriguing discussion of social factors related to childbirth, and insight into the influence of these factors on pregnancy. Marital status and race are not biological factors, and thus should have no physical influence on childbirth. When different patterns emerge in the childbirth data, with respect to these variables, trends could indicate the influence of social pressures and climate on childbirth. 
 =======
-1. Births involving a single mother will exhibit a higher weight gained during pregnancy, a lower average of weeks of gestation and a lower average child weight at birth.
+
 
 >>>>>>> origin/master
 
