@@ -75,6 +75,6 @@ qplot(Gained, data = NCbirths1, geom = "density", color = factor(Marital)) + yla
 ```{r fig.height = 3, fig.width = 3.6,echo=FALSE}
 ggplot(NCbirths1, aes(MomAge, Marital, color = RaceMom)) + geom_point() 
 
-ggplot(NCbirths1, aes(MomAge, Gained, color=factor(Marital))) + geom_point() + geom_smooth(method="lm")
+ggplot(NCbirths1, aes(MomAge, Gained, color=factor(Marital))) + geom_point() 
 ```
 
