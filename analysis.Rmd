@@ -80,3 +80,172 @@ ggplot(NCbirths1, aes(MomAge, Marital, color = RaceMom)) + geom_point()
 ggplot(NCbirths1, aes(MomAge, Gained, color=factor(Marital))) + geom_point(size=0.7) + labs(color="Marital")
 ```
 
+
+\newpage
+
+#Athena's Work, Work in Progress
+
+Variables to Consider: Marital Status, RaceMom, MomAge
+
+Note:
+RaceMom	1=white, 2=black, 3=American Indian, 4=Chinese, 5=Japanese, 6=Hawaiian, 7=Filipino, or 8=Other 
+
+```{r}
+ggplot(NCbirths1, aes(MomAge, RaceMom, color = factor(Marital))) + geom_point() + ggtitle("Age, Race and Marital Status")
+```
+
+Notes: This graphic demonstrates the pitfalls of conducting a convenience sample. The groups represented clearly neglects certain subsets of the population (for example, there is no data on Hawaiian individuals). There is one data point for the filipino race- this means that the entire set of statistics computed for this subset is based on one individual.
+
+It is also fascinating to look at this distribution, further factored by marital status. We can dive into this exploration further, by comparing means for further subsets of the population. 
+
+```{r, echo = FALSE, tidy = TRUE}
+
+#Statistics on age, factored by Race
+age_white <- summary(subset(NCbirths, RaceMom == 1, select = MomAge))
+age_black <- summary(subset(NCbirths, RaceMom == 2, select = MomAge))
+age_american_indian <- summary(subset(NCbirths, RaceMom == 3, select = MomAge))
+age_chinese <- summary(subset(NCbirths, RaceMom == 4, select = MomAge))
+age_japanese <- summary(subset(NCbirths, RaceMom == 5, select = MomAge))
+age_hawaiian <- summary(subset(NCbirths, RaceMom == 6, select = MomAge))
+age_filipino <- summary(subset(NCbirths, RaceMom == 7, select = MomAge))
+age_other <- summary(subset(NCbirths1, RaceMom == 8, select = MomAge))
+```
+
+The following are mean age values for new mothers, categorized by their race. 
+
+```{r, tidy = TRUE}
+#Additional Comparison of Means
+age_white[4]
+age_black[4]
+age_american_indian[4]
+age_chinese[4]
+age_japanese[4]
+age_hawaiian[4]
+age_filipino[4]
+age_other[4]
+```
+
+I applied several t-tests of the data, to evaluate if the difference in means for subsets of the populations is statistically significant. In these computations, pvalue is key, as pvalue provides the probability of obtaining a result equal to or more extreme than the observed outcome, given the the assumption that the null hypothesis is true. Throughout these ttest trials, the null hypothesis states that the difference in mean values is not statistically significant. 
+
+The p-value is defined as the probability of obtaining a result equal to or "more extreme" than what was actually observed, when the null hypothesis is true. In frequentist inference, the p-value is widely used in statistical hypothesis testing, specifically in null hypothesis significance testing.
+
+```{r, echo = FALSE, tidy = TRUE}
+
+ttest_white_population <- t.test(subset(NCbirths, RaceMom == 1, select = MomAge), subset(NCbirths, select = MomAge))
+ttest_white_population[3]
+
+ttest_black_population <- t.test(subset(NCbirths, RaceMom == 2, select = MomAge), subset(NCbirths, select = MomAge))
+ttest_black_population[3]
+
+ttest_american_indian_population <- t.test(subset(NCbirths, RaceMom == 3, select = MomAge), subset(NCbirths, select = MomAge))
+ttest_american_indian_population[3]
+
+ttest_chinese_population <- t.test(subset(NCbirths, RaceMom == 4, select = MomAge), subset(NCbirths, select = MomAge))
+ttest_chinese_population[3]
+
+ttest_japanese_population <- t.test(subset(NCbirths, RaceMom == 5, select = MomAge), subset(NCbirths, select = MomAge))
+ttest_japanese_population[3]
+
+#ttest_hawaiian_population <- t.test(subset(NCbirths, RaceMom == 6, select = MomAge), subset(NCbirths, select = MomAge))
+#ttest_hawaiian_population
+
+#ttest_filipino_population <- t.test(subset(NCbirths, RaceMom == 7, select = MomAge), subset(NCbirths, select = MomAge))
+#ttest_filipino_population
+
+ttest_other_population <- t.test(subset(NCbirths, RaceMom == 8, select = MomAge), subset(NCbirths, select = MomAge))
+ttest_other_population[3]
+
+#T Test, Comparing MomaAge White and Black MomAge
+ttest_white_black <- t.test(subset(NCbirths, RaceMom == 1, select = MomAge), subset(NCbirths, RaceMom == 2, select = MomAge))
+ttest_white_black[3]
+
+```
+
+T-Tests, Comparing MomAge between married and not-married women (factored by race)
+
+```{r}
+#T Test, Entire Population- Married vs. Not-Married
+ttest_population_married <- t.test(subset(NCbirths, Marital == 1, select = MomAge), subset(NCbirths, Marital == 2, select = MomAge))
+ttest_population_married[3]
+
+#T Test, White- Married vs. Not-Married
+ttest_white_married <- t.test(subset(NCbirths, RaceMom == 1 & Marital == 1, select = MomAge), subset(NCbirths, RaceMom == 1 & Marital == 2, select = MomAge))
+ttest_white_married[3]
+
+#T Test, Black- Married vs. Not-Married
+ttest_black_married <- t.test(subset(NCbirths, RaceMom == 2 & Marital == 1, select = MomAge), subset(NCbirths, RaceMom == 2 & Marital == 2, select = MomAge))
+ttest_black_married[3]
+
+#T Test, American indian- Married vs. Not-Married
+ttest_american_indian_married <- t.test(subset(NCbirths, RaceMom == 3 & Marital == 1, select = MomAge), subset(NCbirths, RaceMom == 3 & Marital == 2, select = MomAge))
+ttest_american_indian_married[3]
+
+#T Test, chinese- Married vs. Not-Married
+#NOT ENOUGH DATA
+#ttest_chinese_married <- t.test(subset(NCbirths, RaceMom == 4 & Marital == 1, select = MomAge), subset(NCbirths, RaceMom == 4 & Marital == 2, select = MomAge))
+#ttest_chinese_married
+
+#T Test, japanese- Married vs. Not-Married
+ttest_japanese_married <- t.test(subset(NCbirths, RaceMom == 5 & Marital == 1, select = MomAge), subset(NCbirths, RaceMom == 5 & Marital == 2, select = MomAge))
+ttest_japanese_married[3]
+
+#T Test, hawaiian- Married vs. Not-Married
+#NOT ENOUGH OBSERVATIONS
+#ttest_hawaiian_married <- t.test(subset(NCbirths, RaceMom == 6 & Marital == 1, select = MomAge), subset(NCbirths, RaceMom == 6 & Marital == 2, select = MomAge))
+#ttest_hawaiian_married
+
+#T Test, filipino- Married vs. Not-Married
+#NOT ENOUGH OBSERVATIONS
+#ttest_filipino_married <- t.test(subset(NCbirths, RaceMom == 7 & Marital == 1, select = MomAge), subset(NCbirths, RaceMom == 7 & Marital == 2, select = MomAge))
+#ttest_filipino_married
+
+#T Test, other- Married vs. Not-Married
+ttest_other_married <- t.test(subset(NCbirths, RaceMom == 8 & Marital == 1, select = MomAge), subset(NCbirths, RaceMom == 8 & Marital == 2, select = MomAge))
+ttest_other_married[3]
+```
+
+Race and Marital Status
+
+Note- 1 married, 2 not married
+
+```{r, echo = FALSE, tidy = TRUE}
+
+#T Test, White and Black MomAge
+ttest_white_black <- t.test(subset(NCbirths, RaceMom == 1, select = Marital), subset(NCbirths, RaceMom == 2, select = Marital))
+ttest_white_black[3]
+
+#T Test, White- Married vs. Not-Married
+ttest_white_married <- t.test(subset(NCbirths, RaceMom == 1 & Marital == 1, select = MomAge), subset(NCbirths, RaceMom == 1 & Marital == 2, select = MomAge))
+ttest_white_married[3]
+
+#T Test, Black- Married vs. Not-Married
+ttest_black_married <- t.test(subset(NCbirths, RaceMom == 2 & Marital == 1, select = MomAge), subset(NCbirths, RaceMom == 2 & Marital == 2, select = MomAge))
+ttest_black_married[3]
+
+#T Test, American indian- Married vs. Not-Married
+ttest_american_indian_married <- t.test(subset(NCbirths, RaceMom == 3 & Marital == 1, select = MomAge), subset(NCbirths, RaceMom == 3 & Marital == 2, select = MomAge))
+ttest_american_indian_married[3]
+
+#T Test, chinese- Married vs. Not-Married
+#NOT ENOUGH DATA
+#ttest_chinese_married <- t.test(subset(NCbirths, RaceMom == 4 & Marital == 1, select = MomAge), subset(NCbirths, RaceMom == 4 & Marital == 2, select = MomAge))
+#ttest_chinese_married
+
+#T Test, japanese- Married vs. Not-Married
+ttest_japanese_married <- t.test(subset(NCbirths, RaceMom == 5 & Marital == 1, select = MomAge), subset(NCbirths, RaceMom == 5 & Marital == 2, select = MomAge))
+ttest_japanese_married[3]
+
+#T Test, hawaiian- Married vs. Not-Married
+#NOT ENOUGH OBSERVATIONS
+#ttest_hawaiian_married <- t.test(subset(NCbirths, RaceMom == 6 & Marital == 1, select = MomAge), subset(NCbirths, RaceMom == 6 & Marital == 2, select = MomAge))
+#ttest_hawaiian_married
+
+#T Test, filipino- Married vs. Not-Married
+#NOT ENOUGH OBSERVATIONS
+#ttest_filipino_married <- t.test(subset(NCbirths, RaceMom == 7 & Marital == 1, select = MomAge), subset(NCbirths, RaceMom == 7 & Marital == 2, select = MomAge))
+#ttest_filipino_married[3]
+
+#T Test, other- Married vs. Not-Married
+ttest_other_married <- t.test(subset(NCbirths, RaceMom == 8 & Marital == 1, select = MomAge), subset(NCbirths, RaceMom == 8 & Marital == 2, select = MomAge))
+ttest_other_married[3]
+```
