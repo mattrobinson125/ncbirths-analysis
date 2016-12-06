@@ -151,13 +151,21 @@ other_mean = age_other[4]
 Mean Values Computed: 
 
 population_mean = 26.76
+
 white_mean =27.92  
+
 black_mean = 24.53  
+
 american_indian_mean = 24.09  
+
 chinese_mean = 31.0  
+
 japanese_mean = 24.75  
+
 hawaiian_mean = NaN  
+
 filipino_mean = 37  
+
 other_mean = 28.86
 
 
@@ -197,10 +205,15 @@ t_other = ttest_other_population[3]
 TTest P-Values, difference in mom age between specific racial group and entire population
 
 T_white p.value = 4.730464e-06
+
 T_black p.value = 1.486671e-09
+
 T_japanese p.value = 1.335714e-05
+
 T_other p.value = 0.1550142
+
 T_white_black p.value = 4.78133e-18
+
 T_american_indian p.value = 0.03067128
 
 
@@ -310,13 +323,30 @@ ttest_other_married[3]
 
 TTest P-Values, difference in MomAge between Married and Non-married women
 
-Population = 2.929577e-72 
+Population = 2.929577e-72
+
 white =  4.003403e-30
+
 Black = 4.793121e-18
+
 American Indian = 3.040416e-05
+
 Japanese = 0.05769045
+
 Other = 0.0001803798
 
+Playing around with some new regression code:
+
+```{r}
+#based on computation above, population_mean = 26.76
+#PROBLEM WITH THIS- there is no order / meaning to organization of races (white, black, chinese...)
+MomAgeFit_both <- lm((MomAge - 26.76) ~ RaceMom * Marital - 1, data = NCbirths1)
+MomAgeFit_RaceMom <- lm((MomAge - 26.76) ~ RaceMom - 1, data = NCbirths1) 
+anova(MomAgeFit_both)
+#ggplot(NCbirths1, aes(Marital, MomAgeFit_both)) + geom_point()
+
+
+```
 
 \newpage
 
@@ -356,17 +386,7 @@ ggplot(a, aes(a$residuals)) +
 <<<<<<< HEAD
 The above plots are useful for checking the conditions for linear regression models. From the right plot, we can see that there appears to be a normal distribution of residuals. The left plot gives us an indication that this relationship may not be linear, as there is a slope in the residuals plot. This could be due to missing data, as both the residual plot and the scatterplot from the beginning show us that there is a large amount of data collected on births involving 35 or more weeks of gestation, but not much data on lower weeks. Also, the sample size of only 1400 births could be limiting to this analysis, as birthweight obviously involves many factors. This could be a reason behind the non-linear relationship exhibited in the data. If we had more data, the model would be less influenced by high-leverage points on both the lower end and higher end of the spectrum. The median week is just 33.5 weeks, while from the first density plot we know that the mean week is around 39 weeks. This difference is significant, as the leverage of data points are affected by the distance from the median.
 
-Playing around with some new regression code:
-```{r}
-#based on computation above, population_mean = 26.76
-#PROBLEM WITH THIS- there is no order / meaning to organization of races (white, black, chinese...)
-MomAgeFit_both <- lm((MomAge - 26.76) ~ RaceMom * Marital - 1, data = NCbirths1)
-MomAgeFit_RaceMom <- lm((MomAge - 26.76) ~ RaceMom - 1, data = NCbirths1) 
-anova(MomAgeFit_both)
-#ggplot(NCbirths1, aes(Marital, MomAgeFit_both)) + geom_point()
 
-
-```
 =======
 The above plots are useful for checking the conditions for linear regression models. From the right plot, we can see that there appears to be a normal distribution of residuals. The left plot gives us an indication that this relationship may not be linear, there appears to be a slight curve in the residuals plot. This could be due to missing data, as both the residual plot and the scatterplot from the beginning show us that there is a large amount of data collected on births involving 35 or more weeks of gestation, but not much data on lower weeks. If we had more data, the model would be less influenced by high-leverage points on both the lower end and higher end of the spectrum. 
 
