@@ -12,6 +12,8 @@ output:
 ```{r setup, echo=FALSE}
 library(ggplot2)
 library(Stat2Data)
+library(splines)
+library(knitr)
 data(NCbirths)
 NCbirths1<-na.omit(NCbirths)
 
@@ -327,34 +329,31 @@ qplot(Weeks, data = NCbirths1, geom = "density", color = factor(Marital)) + ylab
 qplot(BirthWeightOz, data = NCbirths1, geom = "density", color = factor(Marital)) + ylab("") + labs(color="Marital")
 ```
 
-```{r, fig.height=4, echo=FALSE}
+```{r, fig.height=3, fig.width=6.5, echo=FALSE}
 ggplot(NCbirths1, aes(Weeks, BirthWeightOz, color=factor(Marital))) + geom_point() + geom_smooth(method='lm', se=FALSE) + labs(color="Marital")
-```
-\ 
-
-```{r, include=FALSE}
-mean(subset(NCbirths1, Marital == 1)$BirthWeightOz)
-mean(subset(NCbirths1, Marital == 2)$BirthWeightOz)
 ```
 
 The above plots confirm that the data we will be looking at is normally distributed. Some key insight we gain from the density plot on the right and the scatterplot on the bottom is that there exists a larger mean birth weight in births involving a married mother compared to births involving a non-married mother. By fitting a linear model, we can get a more tangible value for this relationship.
 
-### Regression Model
-```{r, echo=FALSE}
+```{r, include=FALSE}
 a = lm(BirthWeightOz ~ Weeks + Marital, data=NCbirths1)
-summary(a)
+b = lm(BirthWeightOz ~ ns(Weeks, df=4) + Marital, data=NCbirths1)
+```
+```{r, echo=FALSE}
+kable(summary(a)$coef, digits=2)
 ```
 
-From this linear model fit, we can see that for an increase of 1 week of gestation, we would expect a newborn to weigh, on average, 4.8 Oz more. Additionally, the marital coefficient tells us that, on average, non-married mothers birth children that weigh 6 Oz less than married mothers. An important statistic to pay attention to in a linear regression model is the adjusted R-squared value. This linear model was fit with an $R^2_{adj}$ value of 0.3581. For a biological sample, this seems like a fairly good value, as there are obviously many factors at play when it comes to child birth weight.
+From this linear model fit, we can see that for an increase of 1 week of gestation, we would expect a newborn to weigh, on average, 4.8 Oz more. Additionally, the marital coefficient tells us that, on average, non-married mothers birth children that weigh 6 Oz less than married mothers. An important statistic to pay attention to in a linear regression model is the adjusted R-squared value. This linear model was fit with an $R^2_{adj}$ value of 0.3581.
 
 ###Evaluation of Linear Regression Model
 
-```{r, fig.height=2, fig.width= 3.2, warning=FALSE, echo=FALSE}
+```{r, fig.height=1.5, fig.width= 3.2, warning=FALSE, echo=FALSE}
 qplot(Weeks, a$residuals, data=NCbirths1) + geom_hline(yintercept=0, linetype=2)
 ggplot(a, aes(a$residuals)) +
   geom_histogram(binwidth=10)
 ```
 
+<<<<<<< HEAD
 The above plots are useful for checking the conditions for linear regression models. From the right plot, we can see that there appears to be a normal distribution of residuals. The left plot gives us an indication that this relationship may not be linear, as there is a slope in the residuals plot. This could be due to missing data, as both the residual plot and the scatterplot from the beginning show us that there is a large amount of data collected on births involving 35 or more weeks of gestation, but not much data on lower weeks. Also, the sample size of only 1400 births could be limiting to this analysis, as birthweight obviously involves many factors. This could be a reason behind the non-linear relationship exhibited in the data. If we had more data, the model would be less influenced by high-leverage points on both the lower end and higher end of the spectrum. The median week is just 33.5 weeks, while from the first density plot we know that the mean week is around 39 weeks. This difference is significant, as the leverage of data points are affected by the distance from the median.
 
 Playing around with some new regression code:
@@ -368,3 +367,18 @@ anova(MomAgeFit_both)
 
 
 ```
+=======
+The above plots are useful for checking the conditions for linear regression models. From the right plot, we can see that there appears to be a normal distribution of residuals. The left plot gives us an indication that this relationship may not be linear, there appears to be a slight curve in the residuals plot. This could be due to missing data, as both the residual plot and the scatterplot from the beginning show us that there is a large amount of data collected on births involving 35 or more weeks of gestation, but not much data on lower weeks. If we had more data, the model would be less influenced by high-leverage points on both the lower end and higher end of the spectrum. 
+
+```{r, fig.height=3, fig.width=6, echo=FALSE}
+ggplot(NCbirths1, aes(Weeks, BirthWeightOz, color=factor(Marital))) + geom_point() + geom_smooth(method='lm', formula=y~splines::bs(x,4), se=FALSE) + labs(color="Marital")
+```
+
+```{r, fig.height=1.5, fig.width= 3.2, warning=FALSE, echo=FALSE}
+qplot(Weeks, b$residuals, data=NCbirths1) + geom_hline(yintercept=0, linetype=2)
+ggplot(b, aes(b$residuals)) +
+  geom_histogram(binwidth=10)
+```
+
+We can fit a slightly better model using a natural spline, which fits a curved line to the data. This ends up explaining 8% more of the variability, yielding an $R^2_{adj}$ of 0.4246 when using 4 degrees of freedom. This new model also meets the model diagnostics criteria, and specifically fits the portion of the data with fewer sample points.
+>>>>>>> origin/master
