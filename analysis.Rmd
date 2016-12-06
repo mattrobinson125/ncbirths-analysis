@@ -3,8 +3,11 @@ title: "NCbirths Analysis"
 author: "Matt Robinson, Athena Higgins, Ethan Sennett, Peter Nguyen"
 date: "11/30/2016"
 output:
+<<<<<<< HEAD
   html_document:
     toc: yes
+=======
+>>>>>>> 6bcd80bfb9ffa3915bcd68790e3a38137cb030bd
   pdf_document:
     toc: yes
 ---
@@ -86,6 +89,7 @@ ggplot(NCbirths1, aes(MomAge, Gained, color=factor(Marital))) + geom_point(size=
 
 \newpage
 
+##Work in Progress
 ##Athena's Work, Work in Progress
 
 Variables to Consider: Marital Status, RaceMom, MomAge
@@ -94,13 +98,33 @@ Note:
 RaceMom	1=white, 2=black, 3=American Indian, 4=Chinese, 5=Japanese, 6=Hawaiian, 7=Filipino, or 8=Other 
 
 ```{r}
+<<<<<<< HEAD
 
+=======
+NCbirths_white = subset(NCbirths1, RaceMom == 1)
+NCbirths_black = subset(NCbirths1, RaceMom == 2)
+NCbirths_american_indian = subset(NCbirths1, RaceMom == 3)
+NCbirths_chinese = subset(NCbirths1, RaceMom == 4)
+NCbirths_japanese = subset(NCbirths1, RaceMom == 5)
+NCbirths_hawaiian = subset(NCbirths1, RaceMom == 6)
+NCbirths_filipino = subset(NCbirths1, RaceMom == 7)
+NCbirths_other = subset(NCbirths1, RaceMom == 8)
+```
 
-Notes: This graphic demonstrates the pitfalls of conducting a convenience sample. The groups represented clearly neglects certain subsets of the population (for example, there is no data on Hawaiian individuals). There is one data point for the filipino race- this means that the entire set of statistics computed for this subset is based on one individual.
+```{r}
+ggplot(NCbirths1, aes(RaceMom)) + geom_histogram()
+
+ggplot(NCbirths1, aes(MomAge, RaceMom, color = factor(Marital))) + geom_point() + ggtitle("Age, Race and Marital Status")
+
+ggplot(NCbirths1, aes(MomAge, Marital, color = RaceMom)) + geom_point() 
+```
+>>>>>>> 6bcd80bfb9ffa3915bcd68790e3a38137cb030bd
+
+Notes: This graphic demonstrates the pitfalls of conducting a convenience sample. The groups represented clearly neglects certain subsets of the population (for example, there is no data on Hawaiian individuals). There is one data point for the filipino race- this means that the entire set of statistics computed for this subset is based on one individual. It is important to keep this in mind when interpreting any statistics computed in the future. 
 
 It is also fascinating to look at this distribution, further factored by marital status. We can dive into this exploration further, by comparing means for further subsets of the population. 
 
-```{r, echo = FALSE, tidy = TRUE}
+```{r, eval = FALSE, tidy = TRUE}
 
 #Statistics on age, factored by Race
 age_white <- summary(subset(NCbirths, RaceMom == 1, select = MomAge))
@@ -113,104 +137,137 @@ age_filipino <- summary(subset(NCbirths, RaceMom == 7, select = MomAge))
 age_other <- summary(subset(NCbirths1, RaceMom == 8, select = MomAge))
 ```
 
+
 The following are mean age values for new mothers, categorized by their race. 
 
-```{r, tidy = TRUE}
+```{r, tidy = TRUE, eval = FALSE}
 #Additional Comparison of Means
-age_white[4]
-age_black[4]
-age_american_indian[4]
-age_chinese[4]
-age_japanese[4]
-age_hawaiian[4]
-age_filipino[4]
-age_other[4]
+white_mean = age_white[4]
+black_mean = age_black[4]
+american_indian_mean = age_american_indian[4]
+chinese_mean = age_chinese[4]
+japanese_mean = age_japanese[4]
+hawaiian_mean = age_hawaiian[4]
+filipino_mean = age_filipino[4]
+other_mean = age_other[4]
 ```
+
+Mean Values Computed: 
+
+white_mean =27.92  
+black_mean = 24.53  
+american_indian_mean = 24.09  
+chinese_mean = 31.0  
+japanese_mean = 24.75  
+hawaiian_mean = NaN  
+filipino_mean = 37  
+other_mean = 28.86
+
+
 
 I applied several t-tests of the data, to evaluate if the difference in means for subsets of the populations is statistically significant. In these computations, pvalue is key, as pvalue provides the probability of obtaining a result equal to or more extreme than the observed outcome, given the the assumption that the null hypothesis is true. Throughout these ttest trials, the null hypothesis states that the difference in mean values is not statistically significant. 
 
 The p-value is defined as the probability of obtaining a result equal to or "more extreme" than what was actually observed, when the null hypothesis is true. In frequentist inference, the p-value is widely used in statistical hypothesis testing, specifically in null hypothesis significance testing.
 
-```{r, echo = FALSE, tidy = TRUE}
+```{r, tidy = TRUE, eval = FALSE}
 
 ttest_white_population <- t.test(subset(NCbirths, RaceMom == 1, select = MomAge), subset(NCbirths, select = MomAge))
-ttest_white_population[3]
+t_white = ttest_white_population[3]
 
 ttest_black_population <- t.test(subset(NCbirths, RaceMom == 2, select = MomAge), subset(NCbirths, select = MomAge))
-ttest_black_population[3]
+t_black = ttest_black_population[3]
 
 ttest_american_indian_population <- t.test(subset(NCbirths, RaceMom == 3, select = MomAge), subset(NCbirths, select = MomAge))
-ttest_american_indian_population[3]
+t_american_indian = ttest_american_indian_population[3]
 
 ttest_chinese_population <- t.test(subset(NCbirths, RaceMom == 4, select = MomAge), subset(NCbirths, select = MomAge))
-ttest_chinese_population[3]
+t_chinese = ttest_chinese_population[3]
 
 ttest_japanese_population <- t.test(subset(NCbirths, RaceMom == 5, select = MomAge), subset(NCbirths, select = MomAge))
-ttest_japanese_population[3]
+t_japanese = ttest_japanese_population[3]
 
 #ttest_hawaiian_population <- t.test(subset(NCbirths, RaceMom == 6, select = MomAge), subset(NCbirths, select = MomAge))
-#ttest_hawaiian_population
+#t_hawaiian = ttest_hawaiian_population
 
 #ttest_filipino_population <- t.test(subset(NCbirths, RaceMom == 7, select = MomAge), subset(NCbirths, select = MomAge))
-#ttest_filipino_population
+#t_filipino = ttest_filipino_population
 
 ttest_other_population <- t.test(subset(NCbirths, RaceMom == 8, select = MomAge), subset(NCbirths, select = MomAge))
-ttest_other_population[3]
+t_other = ttest_other_population[3]
+```
 
+
+TTest P-Values, difference in mom age between specific racial group and entire population
+
+T_white p.value = 4.730464e-06
+T_black p.value = 1.486671e-09
+T_japanese p.value = 1.335714e-05
+T_other p.value = 0.1550142
+T_white_black p.value = 4.78133e-18
+T_american_indian p.value = 0.03067128
+
+
+Other types of T-tests
+
+```{r, tidy = TRUE, eval = FALSE}
 #T Test, Comparing MomaAge White and Black MomAge
 ttest_white_black <- t.test(subset(NCbirths, RaceMom == 1, select = MomAge), subset(NCbirths, RaceMom == 2, select = MomAge))
-ttest_white_black[3]
+t_white_black = ttest_white_black[3]
 
 ```
 
+TTest, difference in mom age between different racial groups
+T_white_black p.value = 4.78133e-18
+
+
 T-Tests, Comparing MomAge between married and not-married women (factored by race)
 
-```{r}
+```{r, tidy = TRUE, eval = FALSE}
 #T Test, Entire Population- Married vs. Not-Married
 ttest_population_married <- t.test(subset(NCbirths, Marital == 1, select = MomAge), subset(NCbirths, Marital == 2, select = MomAge))
-ttest_population_married[3]
+t_population_agemarried = ttest_population_married[3]
 
 #T Test, White- Married vs. Not-Married
 ttest_white_married <- t.test(subset(NCbirths, RaceMom == 1 & Marital == 1, select = MomAge), subset(NCbirths, RaceMom == 1 & Marital == 2, select = MomAge))
-ttest_white_married[3]
+t_white_agemarried = ttest_white_married[3]
 
 #T Test, Black- Married vs. Not-Married
 ttest_black_married <- t.test(subset(NCbirths, RaceMom == 2 & Marital == 1, select = MomAge), subset(NCbirths, RaceMom == 2 & Marital == 2, select = MomAge))
-ttest_black_married[3]
+t_black_agemarried = ttest_black_married[3]
 
 #T Test, American indian- Married vs. Not-Married
 ttest_american_indian_married <- t.test(subset(NCbirths, RaceMom == 3 & Marital == 1, select = MomAge), subset(NCbirths, RaceMom == 3 & Marital == 2, select = MomAge))
-ttest_american_indian_married[3]
+t_american_indian_agemarried = ttest_american_indian_married[3]
 
 #T Test, chinese- Married vs. Not-Married
 #NOT ENOUGH DATA
 #ttest_chinese_married <- t.test(subset(NCbirths, RaceMom == 4 & Marital == 1, select = MomAge), subset(NCbirths, RaceMom == 4 & Marital == 2, select = MomAge))
-#ttest_chinese_married
+#t_chinese_agemarried = ttest_chinese_married[3]
 
 #T Test, japanese- Married vs. Not-Married
 ttest_japanese_married <- t.test(subset(NCbirths, RaceMom == 5 & Marital == 1, select = MomAge), subset(NCbirths, RaceMom == 5 & Marital == 2, select = MomAge))
-ttest_japanese_married[3]
+t_japanese_agemarried = ttest_japanese_married[3]
 
 #T Test, hawaiian- Married vs. Not-Married
 #NOT ENOUGH OBSERVATIONS
 #ttest_hawaiian_married <- t.test(subset(NCbirths, RaceMom == 6 & Marital == 1, select = MomAge), subset(NCbirths, RaceMom == 6 & Marital == 2, select = MomAge))
-#ttest_hawaiian_married
+#t_hawaiian_agemarried = ttest_hawaiian_married[3]
 
 #T Test, filipino- Married vs. Not-Married
 #NOT ENOUGH OBSERVATIONS
 #ttest_filipino_married <- t.test(subset(NCbirths, RaceMom == 7 & Marital == 1, select = MomAge), subset(NCbirths, RaceMom == 7 & Marital == 2, select = MomAge))
-#ttest_filipino_married
+#t_filipino_agemarried = ttest_filipino_married[3]
 
 #T Test, other- Married vs. Not-Married
 ttest_other_married <- t.test(subset(NCbirths, RaceMom == 8 & Marital == 1, select = MomAge), subset(NCbirths, RaceMom == 8 & Marital == 2, select = MomAge))
-ttest_other_married[3]
+t_other_agemarried = ttest_other_married[3]
 ```
 
 Race and Marital Status
 
 Note- 1 married, 2 not married
 
-```{r, echo = FALSE, tidy = TRUE}
+```{r, tidy = TRUE, eval = FALSE}
 
 #T Test, White and Black MomAge
 ttest_white_black <- t.test(subset(NCbirths, RaceMom == 1, select = Marital), subset(NCbirths, RaceMom == 2, select = Marital))
@@ -252,6 +309,17 @@ ttest_other_married <- t.test(subset(NCbirths, RaceMom == 8 & Marital == 1, sele
 ttest_other_married[3]
 ```
 
+
+TTest P-Values, difference in MomAge between Married and Non-married women
+
+Population = 2.929577e-72
+white =  4.003403e-30
+Black = 4.793121e-18
+American Indian = 3.040416e-05
+Japanese = 0.05769045
+Other = 0.0001803798
+
+
 \newpage
 
 ## Marital Status, Child Weight &  Weeks of Gestation
@@ -268,7 +336,12 @@ ggplot(NCbirths1, aes(Weeks, BirthWeightOz, color=factor(Marital))) + geom_point
 ```
 \ 
 
-The above plots confirm that the data we will be looking at is normally distributed. Some key insight we gain from the plot on the right and the scatterplot on the bottom is that there exists a larger mean birth weight in births involving a married mother compared to births involving a non-married mother. By fitting a linear model, we can get a more tangible value for this relationship.
+```{r, include=FALSE}
+mean(subset(NCbirths1, Marital == 1)$BirthWeightOz)
+mean(subset(NCbirths1, Marital == 2)$BirthWeightOz)
+```
+
+The above plots confirm that the data we will be looking at is normally distributed. Some key insight we gain from the density plot on the right and the scatterplot on the bottom is that there exists a larger mean birth weight in births involving a married mother compared to births involving a non-married mother. By fitting a linear model, we can get a more tangible value for this relationship.
 
 ### Regression Model
 ```{r, echo=FALSE}
@@ -281,11 +354,12 @@ From this linear model fit, we can see that for an increase of 1 week of gestati
 ###Evaluation of Linear Regression Model
 
 ```{r, fig.height=2, fig.width= 3.2, warning=FALSE, echo=FALSE}
-qplot(BirthWeightOz, a$residuals, data=NCbirths1) + geom_hline(yintercept=0, linetype=2)
+qplot(Weeks, a$residuals, data=NCbirths1) + geom_hline(yintercept=0, linetype=2)
 ggplot(a, aes(a$residuals)) +
   geom_histogram(binwidth=10)
 ```
 
+<<<<<<< HEAD
 The above plots are useful for checking the conditions for linear regression models. From the right plot, we can see that there appears to be a normal distribution of residuals. The left plot gives us an indication that this relationship may not be linear, as there is a slope in the residuals plot. This could be due to missing data, as both the residual plot and the scatterplot from the beginning show us that there is a large amount of data collected on births involving 35 or more weeks of gestation, but not much data on lower weeks. Also, the sample size of only 1400 births could be limiting to this analysis, as birthweight obviously involves many factors. This could be a reason behind the non-linear relationship exhibited in thggplot(NCbirths1, aes(MomAge, RaceMom, color = factor(Marital))) + geom_point() + ggtitle("Age, Race and Marital Status")
 ```e data. If we had more data, the model would be less influenced by high-leverage points on both the lower end and higher end of the spectrum. The median week is just 33.5 weeks, while from the first density plot we know that the mean week is around 39 weeks. This difference is significant, as the leverage of data points are affected by the distance from the median.
 
@@ -306,3 +380,6 @@ summary(MultipleBirths)
 ```
 
 
+=======
+The above plots are useful for checking the conditions for linear regression models. From the right plot, we can see that there appears to be a normal distribution of residuals. The left plot gives us an indication that this relationship may not be linear, as there is a slope in the residuals plot. This could be due to missing data, as both the residual plot and the scatterplot from the beginning show us that there is a large amount of data collected on births involving 35 or more weeks of gestation, but not much data on lower weeks. Also, the sample size of only 1400 births could be limiting to this analysis, as birthweight obviously involves many factors. This could be a reason behind the non-linear relationship exhibited in the data. If we had more data, the model would be less influenced by high-leverage points on both the lower end and higher end of the spectrum. The median week is just 33.5 weeks, while from the first density plot we know that the mean week is around 39 weeks. This difference is significant, as the leverage of data points are affected by the distance from the median.
+>>>>>>> 6bcd80bfb9ffa3915bcd68790e3a38137cb030bd
