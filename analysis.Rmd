@@ -3,8 +3,6 @@ title: "NCbirths Analysis"
 author: "Matt Robinson, Athena Higgins, Ethan Sennett, Peter Nguyen"
 date: "11/30/2016"
 output:
-  html_document:
-    toc: yes
   pdf_document:
     toc: yes
 ---
@@ -86,12 +84,8 @@ ggplot(NCbirths1, aes(MomAge, Gained, color=factor(Marital))) + geom_point(size=
 
 \newpage
 
-<<<<<<< HEAD
-#Athena's Part (Marital Status, RaceMom, MomAge)
 ##Work in Progress
-=======
 ##Athena's Work, Work in Progress
->>>>>>> origin/master
 
 Variables to Consider: Marital Status, RaceMom, MomAge
 
@@ -306,7 +300,6 @@ ttest_other_married <- t.test(subset(NCbirths, RaceMom == 8 & Marital == 1, sele
 ttest_other_married[3]
 ```
 
-<<<<<<< HEAD
 
 TTest P-Values, difference in MomAge between Married and Non-married women
 
@@ -318,7 +311,6 @@ Japanese = 0.05769045
 Other = 0.0001803798
 
 
-=======
 \newpage
 
 ## Marital Status, Child Weight &  Weeks of Gestation
@@ -335,7 +327,12 @@ ggplot(NCbirths1, aes(Weeks, BirthWeightOz, color=factor(Marital))) + geom_point
 ```
 \ 
 
-The above plots confirm that the data we will be looking at is normally distributed. Some key insight we gain from the plot on the right and the scatterplot on the bottom is that there exists a larger mean birth weight in births involving a married mother compared to births involving a non-married mother. By fitting a linear model, we can get a more tangible value for this relationship.
+```{r, include=FALSE}
+mean(subset(NCbirths1, Marital == 1)$BirthWeightOz)
+mean(subset(NCbirths1, Marital == 2)$BirthWeightOz)
+```
+
+The above plots confirm that the data we will be looking at is normally distributed. Some key insight we gain from the density plot on the right and the scatterplot on the bottom is that there exists a larger mean birth weight in births involving a married mother compared to births involving a non-married mother. By fitting a linear model, we can get a more tangible value for this relationship.
 
 ### Regression Model
 ```{r, echo=FALSE}
@@ -348,11 +345,9 @@ From this linear model fit, we can see that for an increase of 1 week of gestati
 ###Evaluation of Linear Regression Model
 
 ```{r, fig.height=2, fig.width= 3.2, warning=FALSE, echo=FALSE}
-qplot(BirthWeightOz, a$residuals, data=NCbirths1) + geom_hline(yintercept=0, linetype=2)
+qplot(Weeks, a$residuals, data=NCbirths1) + geom_hline(yintercept=0, linetype=2)
 ggplot(a, aes(a$residuals)) +
   geom_histogram(binwidth=10)
 ```
 
 The above plots are useful for checking the conditions for linear regression models. From the right plot, we can see that there appears to be a normal distribution of residuals. The left plot gives us an indication that this relationship may not be linear, as there is a slope in the residuals plot. This could be due to missing data, as both the residual plot and the scatterplot from the beginning show us that there is a large amount of data collected on births involving 35 or more weeks of gestation, but not much data on lower weeks. Also, the sample size of only 1400 births could be limiting to this analysis, as birthweight obviously involves many factors. This could be a reason behind the non-linear relationship exhibited in the data. If we had more data, the model would be less influenced by high-leverage points on both the lower end and higher end of the spectrum. The median week is just 33.5 weeks, while from the first density plot we know that the mean week is around 39 weeks. This difference is significant, as the leverage of data points are affected by the distance from the median.
->>>>>>> origin/master
-
