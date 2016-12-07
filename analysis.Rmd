@@ -3,17 +3,9 @@ title: "NCbirths Analysis"
 author: "Matt Robinson, Athena Higgins, Ethan Sennett, Peter Nguyen"
 date: "11/30/2016"
 output:
-<<<<<<< HEAD
-<<<<<<< HEAD
   html_document:
     toc: yes
-=======
->>>>>>> 6bcd80bfb9ffa3915bcd68790e3a38137cb030bd
-=======
-  html_document:
-    toc: yes
->>>>>>> 1c756070b2d62380feb4151dd26c42814afc7fbc
-  pdf_document:
+
     toc: yes
 ---
 
@@ -105,9 +97,6 @@ Note:
 RaceMom	1=white, 2=black, 3=American Indian, 4=Chinese, 5=Japanese, 6=Hawaiian, 7=Filipino, or 8=Other 
 
 ```{r}
-<<<<<<< HEAD
-
-=======
 NCbirths_white = subset(NCbirths1, RaceMom == 1)
 NCbirths_black = subset(NCbirths1, RaceMom == 2)
 NCbirths_american_indian = subset(NCbirths1, RaceMom == 3)
@@ -125,7 +114,6 @@ ggplot(NCbirths1, aes(MomAge, RaceMom, color = factor(Marital))) + geom_point() 
 
 ggplot(NCbirths1, aes(MomAge, Marital, color = RaceMom)) + geom_point() 
 ```
->>>>>>> 6bcd80bfb9ffa3915bcd68790e3a38137cb030bd
 
 Notes: This graphic illustrate the pitfalls of conducting a convenience sample. The groups represented clearly neglect certain subsets of the population (for example, there hawaiian individuals are not represented in the dataset). There is one data point for the filipino race- this means that the entire set of statistics computed for this subset is based on one individual. It is important to keep this in mind when interpreting any statistics computed 
 
@@ -345,37 +333,12 @@ qplot(Weeks, a$residuals, data=NCbirths1) + geom_hline(yintercept=0, linetype=2)
 ggplot(a, aes(a$residuals)) +
   geom_histogram(binwidth=10)
 ```
-
-<<<<<<< HEAD
-<<<<<<< HEAD
 The above plots are useful for checking the conditions for linear regression models. From the right plot, we can see that there appears to be a normal distribution of residuals. The left plot gives us an indication that this relationship may not be linear, as there is a slope in the residuals plot. This could be due to missing data, as both the residual plot and the scatterplot from the beginning show us that there is a large amount of data collected on births involving 35 or more weeks of gestation, but not much data on lower weeks. Also, the sample size of only 1400 births could be limiting to this analysis, as birthweight obviously involves many factors. This could be a reason behind the non-linear relationship exhibited in thggplot(NCbirths1, aes(MomAge, RaceMom, color = factor(Marital))) + geom_point() + ggtitle("Age, Race and Marital Status")
 ```e data. If we had more data, the model would be less influenced by high-leverage points on both the lower end and higher end of the spectrum. The median week is just 33.5 weeks, while from the first density plot we know that the mean week is around 39 weeks. This difference is significant, as the leverage of data points are affected by the distance from the median.
 
-\newpage
 
-## Martial Status, Child Weight & Multiple Births (Plural)
-```{r, echo = false}
-ggplot(NCbirths1, aes(BirthWeightOz, Plural, color = factor(Marital))) + geom_point() + ggtitle("Age, Race and Marital Status")
-```
-
-For this segment, we are looking at the relationship between marital the weight of the child and if there was multiple births. Like with the other segements, we are using the marital status of the mother to see if there is any relationship between them. 
-
-
-##Regression Model
-````{r, echo = false}
-MultipleBirths = lm(BirthWeightOz ~ Plural + Marital, data=NCbirths1)
-summary(MultipleBirths)
-```
-
-
-=======
-The above plots are useful for checking the conditions for linear regression models. From the right plot, we can see that there appears to be a normal distribution of residuals. The left plot gives us an indication that this relationship may not be linear, as there is a slope in the residuals plot. This could be due to missing data, as both the residual plot and the scatterplot from the beginning show us that there is a large amount of data collected on births involving 35 or more weeks of gestation, but not much data on lower weeks. Also, the sample size of only 1400 births could be limiting to this analysis, as birthweight obviously involves many factors. This could be a reason behind the non-linear relationship exhibited in the data. If we had more data, the model would be less influenced by high-leverage points on both the lower end and higher end of the spectrum. The median week is just 33.5 weeks, while from the first density plot we know that the mean week is around 39 weeks. This difference is significant, as the leverage of data points are affected by the distance from the median.
->>>>>>> 6bcd80bfb9ffa3915bcd68790e3a38137cb030bd
-=======
 The above plots are useful for checking the conditions for linear regression models. From the right plot, we can see that there appears to be a normal distribution of residuals. The left plot gives us an indication that this relationship may not be linear, as there is a slope in the residuals plot. This could be due to missing data, as both the residual plot and the scatterplot from the beginning show us that there is a large amount of data collected on births involving 35 or more weeks of gestation, but not much data on lower weeks. Also, the sample size of only 1400 births could be limiting to this analysis, as birthweight obviously involves many factors. This could be a reason behind the non-linear relationship exhibited in the data. If we had more data, the model would be less influenced by high-leverage points on both the lower end and higher end of the spectrum. The median week is just 33.5 weeks, while from the first density plot we know that the mean week is around 39 weeks. This difference is significant, as the leverage of data points are affected by the distance from the median.
 
-
-=======
 The above plots are useful for checking the conditions for linear regression models. From the right plot, we can see that there appears to be a normal distribution of residuals. The left plot gives us an indication that this relationship may not be linear, there appears to be a slight curve in the residuals plot. This could be due to missing data, as both the residual plot and the scatterplot from the beginning show us that there is a large amount of data collected on births involving 35 or more weeks of gestation, but not much data on lower weeks. If we had more data, the model would be less influenced by high-leverage points on both the lower end and higher end of the spectrum. 
 
 ```{r, fig.height=3, fig.width=6, echo=FALSE}
@@ -389,5 +352,21 @@ ggplot(b, aes(b$residuals)) +
 ```
 
 We can fit a slightly better model using a natural spline, which fits a curved line to the data. This ends up explaining 8% more of the variability, yielding an $R^2_{adj}$ of 0.4246 when using 4 degrees of freedom. This new model also meets the model diagnostics criteria, and specifically fits the portion of the data with fewer sample points.
->>>>>>> origin/master
->>>>>>> 1c756070b2d62380feb4151dd26c42814afc7fbc
+
+
+
+\newpage
+
+## Martial Status, Child Weight & Multiple Births (Plural)
+```{r, echo = false}
+ggplot(NCbirths1, aes(BirthWeightOz, Plural, color = factor(Marital))) + geom_point() + ggtitle("MultipleBirths, BirthWeight and Marital Status")
+```
+
+For this segment, we are looking at the relationship between marital the weight of the child and if there was multiple births. Like with the other segements, we are using the marital status of the mother to see if there is any relationship between them. 
+
+
+##Regression Model
+````{r, echo = false}
+MultipleBirths = lm(BirthWeightOz ~ Plural + Marital, data=NCbirths1)
+summary(MultipleBirths)
+```
