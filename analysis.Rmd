@@ -358,17 +358,28 @@ We can fit a slightly better model using a natural spline, which fits a curved l
 \newpage
 
 ## Martial Status, Child Weight & Multiple Births (Plural)
-```{r, echo = false}
-ggplot(NCbirths1, aes(Plural, BirthWeightOz, color = factor(Marital))) +geom_point() + ggtitle("MultipleBirths, BirthWeight and Marital Status")
-
-ggplot(NCbirths1, aes(Plural, BirthWeightOz, color=factor(Marital))) + geom_point() + geom_smooth(method = 'lm',span = 3) + labs(color="Marital")
-```
-
 For this segment, we are looking at the relationship between marital the weight of the child and if there was multiple births. Like with the other segements, we are using the marital status of the mother to see if there is any relationship between them. 
 
+```{r, echo = false}
+
+ggplot(NCbirths1, aes(Plural, BirthWeightOz, color=factor(Marital))) + geom_point() + geom_smooth(method = 'lm',span = 3) + labs(color="Marital")
+tapply(NCbirths1$Plural, NCbirths1$Marital, FUN = sum)
+```
+
+Looking at the graph from above, we can see that there is a trend with BirthWeightOz that is being affected by Marital status of the mother and multiple births. By having a linear model, we can visualize the trend of the data which happens to be a negative trend with the married mother having a higher average birth weight than a single mother. We also note that being a married mother, the chances of having multiple children during a single birth is higher than a single mother they are more likely to have atleast one child. There could be some explaination for this where the single mother thought that she could not be able to provide for multiple children and chose not to keep them. 
+
+```{r}
+qplot(factor(Marital), BirthWeightOz, data = NCbirths1, geom = "boxplot")
+tapply(NCbirths1$BirthWeightOz, NCbirths1$Marital, FUN = mean)
+qplot(factor(Plural), BirthWeightOz, data = NCbirths1, geom = "boxplot")
+tapply(NCbirths1$BirthWeightOz, NCbirths1$Plural, FUN = mean)
+
+```
+Looking at the box and whisker plots from above, we can see the relationship between the weight of the child at birth and the marital status of the mother. This data was inline with our third hypothesis where being married would have a positive affect on the average weight of the child at birth. Looking at the initial box plot we can see that the average weight of the child is 119.1oz for married mothers and 111.38oz for single mothers. We can also see from the second plot where with each subsequent child, the average weight of the children are much lower. Looking at the average weight of each children for multiple births, we can see a significant drop in average weight from 117.85oz for single children to 76.91oz for twins and 62.5oz for triples. There could be multiple explanations for why this is the case from our data. One could argue that we do not have enough data due to the vast majority of births end in a single child where twins are rare and having triplets are even rarer. One can also believe that with each extra child during the same birth, the mother may not have eaten enough nutrients for each baby.    
 
 ##Regression Model
 ````{r, tidy = TRUE, eval = FALSE}
-MultipleBirths = lm(BirthWeightOz ~ Plural + Marital, data=NCbirths1)
-summary(MultipleBirths)
+birthWeight = lm(BirthWeightOz ~ Plural + Marital, data=NCbirths1)
+summary(birthWeight)
 ```
+From looking at the summary of the birthWeight, we would expect having multiple births will reduce the BirthWeightOz of the baby if all other variables stay constant. It is also important to note that the fit of the linear model which is given by the r-square value which is .1457.
