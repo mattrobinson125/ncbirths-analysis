@@ -375,3 +375,80 @@ birthWeight = lm(BirthWeightOz ~ Plural + Marital, data=NCbirths1)
 summary(birthWeight)
 ```
 From looking at the summary of the birthWeight, we would expect having multiple births will reduce the BirthWeightOz of the baby if all other variables stay constant. It is also important to note that the fit of the linear model which is given by the r-square value which is .1457.
+
+\newpage
+
+## Marital Status, Age of Mother, and Weight Gained
+
+```{r,echo=FALSE}
+data(NCbirths)
+NCbirths2<-NCbirths1[which(NCbirths1$MomAge <= 27 & NCbirths1$Marital==2), ]
+NCbirths3<-NCbirths1[which(NCbirths1$Marital==1), ]
+NCbirths4<-NCbirths1[which(NCbirths1$Marital==2), ]
+```
+
+
+This section of the analysis explores the relationship between the age of the subject and how much weight they gained after the pregnancy. Marital status is once again used as a categorical variable to see what differences there may be between married and unmarried subjects.
+
+
+First, we look at a simple plot of all the observations, excluding cases with missing data:
+
+```{r,fig.height = 3, fig.width = 3.6,echo=FALSE}
+ggplot(NCbirths1, aes(MomAge, Gained, color=factor(Marital))) + geom_point(size=1) + labs(color="Marital")+geom_smooth(method = "lm") +ggtitle("NCbirths")
+
+```
+
+Compared to our original hypothesis of this relation, our inital plot shows little to no correlation between the two variables, with or without the categorical variable of marital status involved. However, when looking at the plots without any regression lines, a majority of observations that are unmarried occur roughly before the median of the age variable (27 years old). 
+
+```{r, fig.height = 3, fig.width = 3.6,echo=FALSE}
+
+
+ggplot(NCbirths1, aes(MomAge, Gained, color=factor(Marital))) + geom_point(size=1) + labs(color="Marital")+geom_vline(xintercept = 27) + ggtitle("NCbirths1 with x-intercept of x = 27")
+
+ggplot(NCbirths2, aes(MomAge, Gained)) + geom_point(size=1) + labs(color="Marital") + geom_smooth(method = "lm") +ggtitle("Unmarried and 27 or Younger")
+
+NCbirths1$marital_relevel <- factor(NCbirths1$Marital, levels=c("1","2"))
+test1<-lm(Gained ~ MomAge*marital_relevel,data=NCbirths1)
+#summary(test1)
+
+#NCbirths2$marital_relevel <- factor(NCbirths2$Marital, levels=c("1","2"))
+#test2<-lm(Gained ~ MomAge*marital_relevel,data=NCbirths2)
+#summary(test2)
+```
+
+It appears that there could be a stronger relationship between age and weight gained if the dataset is simplified to just unmarried cases who are 27 or younger. To test this theory, we can check a comparison of the p-values of the age variable and R-squared values from the first plot to the second.
+
+
+```{r,eval=FALSE,echo=FALSE}
+
+fm<-lm(Gained~MomAge*Marital,data=NCbirths1)
+fm1<-lm(Gained~MomAge, data = NCbirths2)
+summary(fm)$coefficients
+summary(fm1)$coefficients
+summary(fm)$r.squared
+summary(fm1)$r.squared
+```
+
+**Dataset    ** |  **p-value**     | **R-squared**
+--------------  | ---------------- | -------- 
+                |                  |
+NCbirths1       |  0.249           |  0.0019
+NCbirths2       |  0.258           |  0.0032
+
+* NCbirths1 contains all observations that have no missing data
+* NCbirths2 contains all observations of NCbirths1 that are unmarriend and 27 or    younger
+
+
+After analysis, the new dataset has an increased p-value and is still above 0.05, so it tells us that age still has no statistical significance in relation to weight gained. However, the R-squared value did increase, albeit by an minimal amount. Perhaps this could lead to a greater relationship if the dataset contained more observations. But for now, with this dataset, it is evident that there was not strong enough of a relationship between age and weight gained to show a statistical significance between the two. This also goes against what our initial hypothesis stated, so we conclude that the original hypothesis was indeed false.
+
+One last thing we can take away from the initial plot:
+
+```{r,fig.height = 3, fig.width = 3.6,echo=FALSE}
+
+ggplot(NCbirths3, aes(MomAge, Gained)) + geom_point(size=1) +geom_vline(xintercept = 27) + ggtitle("Married")
+
+ggplot(NCbirths4, aes(MomAge, Gained)) + geom_point(size=1) +geom_vline(xintercept = 27) + ggtitle("Unmarried")
+
+```
+
+Once again, looking at the spread of observations in relation to the median age of 27, married women are distributed almost perfectly even from the youngest to oldest observations. But it's clear to see that, with unmarried women, after 27 the observations become very sparse. Before 27, there are many more observations and they're very condensed in that small section. Considering that the average age a women gets married in the U.S. is currently 27, this plot shows a strong confirmation of that statistic.
