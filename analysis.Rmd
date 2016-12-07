@@ -359,14 +359,16 @@ We can fit a slightly better model using a natural spline, which fits a curved l
 
 ## Martial Status, Child Weight & Multiple Births (Plural)
 ```{r, echo = false}
-ggplot(NCbirths1, aes(BirthWeightOz, Plural, color = factor(Marital))) + geom_point() + ggtitle("MultipleBirths, BirthWeight and Marital Status")
+ggplot(NCbirths1, aes(Plural, BirthWeightOz, color = factor(Marital))) +geom_point() + ggtitle("MultipleBirths, BirthWeight and Marital Status")
+
+ggplot(NCbirths1, aes(Plural, BirthWeightOz, color=factor(Marital))) + geom_point() + geom_smooth(method = 'lm',span = 3) + labs(color="Marital")
 ```
 
 For this segment, we are looking at the relationship between marital the weight of the child and if there was multiple births. Like with the other segements, we are using the marital status of the mother to see if there is any relationship between them. 
 
 
 ##Regression Model
-````{r, echo = false}
+````{r, tidy = TRUE, eval = FALSE}
 MultipleBirths = lm(BirthWeightOz ~ Plural + Marital, data=NCbirths1)
 summary(MultipleBirths)
 ```
