@@ -89,12 +89,12 @@ ggplot(NCbirths1, aes(MomAge, Gained, color=factor(Marital))) + geom_point(size=
 
 ##Athena's Work
 
-Variables to Consider: Marital Status, RaceMom, MomAge
+#Variables to Consider: Marital Status, RaceMom, MomAge
 
 Note:
 RaceMom	1=white, 2=black, 3=American Indian, 4=Chinese, 5=Japanese, 6=Hawaiian, 7=Filipino, or 8=Other 
 
-```{r}
+```{r, include = FALSE}
 NCbirths_white = subset(NCbirths1, RaceMom == 1)
 NCbirths_black = subset(NCbirths1, RaceMom == 2)
 NCbirths_american_indian = subset(NCbirths1, RaceMom == 3)
@@ -105,7 +105,7 @@ NCbirths_filipino = subset(NCbirths1, RaceMom == 7)
 NCbirths_other = subset(NCbirths1, RaceMom == 8)
 ```
 
-```{r}
+```{r, fig.height=2, fig.width= 3.7, warning=FALSE, echo=FALSE}
 ggplot(NCbirths1, aes(RaceMom)) + geom_histogram()
 
 ggplot(NCbirths1, aes(MomAge, RaceMom, color = factor(Marital))) + geom_point() + ggtitle("Age, Race and Marital Status")
@@ -117,7 +117,7 @@ Notes: This graphic illustrate the pitfalls of conducting a convenience sample. 
 
 It is also fascinating to look at this distribution, once it has been factored by marital status. We can dive into this exploration further, by comparing means of different subsets within the population. 
 
-```{r, eval = FALSE, tidy = TRUE}
+```{r, include = FALSE, eval = FALSE, tidy = TRUE}
 
 #Statistics on age, factored by Race
 age_white <- summary(subset(NCbirths, RaceMom == 1, select = MomAge))
@@ -133,7 +133,7 @@ age_other <- summary(subset(NCbirths1, RaceMom == 8, select = MomAge))
 
 The following are mean age values for new mothers, categorized by their race. 
 
-```{r, tidy = TRUE, eval = FALSE}
+```{r, include = FALSE, tidy = TRUE, eval = FALSE}
 #Additional Comparison of Means
 population_mean =  summary(subset(NCbirths, select = MomAge))
 white_mean = age_white[4]
@@ -164,7 +164,7 @@ other           | 28.86
 I also applied several t-tests of the data, to evaluate if the difference in means for subsets of the populations is statistically significant. These computations allow for extraction of a pvalue (pvalue gives the probability of obtaining a result equal to / more extreme than the outcome observed, given the the assumption that the null hypothesis is true.) The Ttest null hypothesis states that the difference in mean values is not statistically significant. However, if the pvalue is very small (less than alpha), we can reject the null hypothesis, and conclude that the difference in mean values is statistically significant. 
 
 
-```{r, tidy = TRUE, eval = FALSE}
+```{r, include = FALSE, tidy = TRUE, eval = FALSE}
 
 ttest_white_population <- t.test(subset(NCbirths, RaceMom == 1, select = MomAge), subset(NCbirths, select = MomAge))
 t_white = ttest_white_population[3]
@@ -212,7 +212,7 @@ white vs. black | 4.78133e-18      | Reject the null- statistically significant 
 
 Other types of T-tests
 
-```{r, tidy = TRUE, eval = FALSE}
+```{r, include = FALSE, tidy = TRUE, eval = FALSE}
 #T Test, Comparing MomaAge White and Black MomAge
 ttest_white_black <- t.test(subset(NCbirths, RaceMom == 1, select = MomAge), subset(NCbirths, RaceMom == 2, select = MomAge))
 t_white_black = ttest_white_black[3]
@@ -225,7 +225,7 @@ We can also execute T-Tests comparing MomAge between married and non-married wom
 
 T-Tests, Comparing MomAge between married and not-married women (factored by race)
 
-```{r, tidy = TRUE, eval = FALSE}
+```{r, include = FALSE, tidy = TRUE, eval = FALSE}
 #T Test, Entire Population- Married vs. Not-Married
 ttest_population_married <- t.test(subset(NCbirths, Marital == 1, select = MomAge), subset(NCbirths, Marital == 2, select = MomAge))
 t_population_agemarried = ttest_population_married[3]
@@ -287,15 +287,25 @@ Playing around with some new regression code:
 It would be very interesting to build a repression predicting MomAge from MomRace and Marital Status. This regression is based around an interaction of variables, and will result in B values for each possible combination (example- white married, white not married, black married, black not married...). The regression will be centered around (MomAge - Population_mean_age), the difference between MomAge for a specific subset, and the overall population average age. This regression does not require an intercept (because it is categorical, not continuous data). 
 
 
-```{r}
+```{r, echo = FALSE, tidy = TRUE}
 #based on computation above, population_mean = 26.76
 #PROBLEM WITH THIS- there is no order / meaning to organization of races (white, black, chinese...)
-MomAgeFit_both <- lm((MomAge - 26.76) ~ RaceMom * Marital - 1, data = NCbirths1)
-MomAgeFit_RaceMom <- lm((MomAge - 26.76) ~ RaceMom - 1, data = NCbirths1) 
-anova(MomAgeFit_both)
-#ggplot(NCbirths1, aes(Marital, MomAgeFit_both)) + geom_point()
+Marital_factor <- factor(NCbirths1$Marital, levels = c("1", "2"), labels = c("married", "not married"))
+
+RaceMom_factor <- factor(NCbirths1$RaceMom, levels = c("1", "2", "3", "4", "5", "6", "7", "8"), labels = c("White", "Black", "American Indian", "Chinese", "Japanese", "Hawaiian", "Filipino", "Other"))
+
+MomAgeFit_RaceMom_Marital <- lm((MomAge - 26.76) ~ (RaceMom_factor * Marital_factor) - 1, data = NCbirths1)
+MomAgeFit_RaceMom <- lm((MomAge - 26.76) ~ RaceMom_factor - 1, data = NCbirths1) 
+MomAgeFit_Marital <- lm((MomAge - 26.76) ~ Marital_factor - 1, data = NCbirths1)
+
+MomAgeFit_RaceMom_Marital
+#MomAgeFit_RaceMom
+#MomAgeFit_Marital
 
 ```
+
+The coefficients produced from this regression tell an intriguing story about the interaction that occurs between these two sociological variables (race and marital status), and the influence this interaction has when predicting MomAge.
+
 
 \newpage
 
