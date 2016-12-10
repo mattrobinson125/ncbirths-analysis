@@ -5,6 +5,8 @@ date: "12/7/2016"
 output:
   pdf_document:
     toc: yes
+  html_document:
+    toc: yes
 ---
 
 ```{r setup, echo=FALSE}
@@ -22,7 +24,7 @@ NCbirths1<-na.omit(NCbirths)
 # 1. Group Analysis
 ## Project Overview
 
-For our final project, based on the NCbirths dataset, we will explore factors related to childbirth data at a particular hospital. The NCbirths dataset includes the following variables that will be useful in exploring the stories contained in this dataset.
+For our final project, based on the NCbirths dataset, we will explore factors related to childbirth data at a particular hospital. The NCbirths dataset includes the following variables, which will be useful in exploring the stories contained within this dataset.
 
 **Variable**   |  **Explanation**
 -------------- | -----------------
@@ -36,7 +38,6 @@ Weeks          | The number of completed weeks of gestation.
 Plural         | Multiple birth indicator. 1=single birth, 2=twins, 3=triplets.
 
 
-
 Examining relationships among these factors provides insight into the complexity of pregnancy for women and their infants, and the plethora of variables which influence childbirth. Some interesting relationships and interactions that we will explore in this report include:
 
 1. The relationship between the mothers marital status, race and age.
@@ -44,7 +45,7 @@ Examining relationships among these factors provides insight into the complexity
 3. The relationship between the mothers marital status, the childs weight at birth and number of weeks of gestation.
 4. The relationship between the mothers marital status, the childs weight at birth and whether or not the child was a twin or triplet.
 
-Analyzing the data, through lenses shaped by these factors, allows us to tell intriguing social and biological stories about women’s pregnancy experiences. All of these analyses will incorporate marital status as a categorical factor to provide a comprehensive analysis of marital influence on pregnancy and childbirth.
+Analyzing the data, through lenses shaped by these factors, allows us to tell intriguing social and biological stories about women's individual pregnancy experiences. Each individual analysis of the dataset incorporates marital status as a categorical factor, in order to provide some consistency throughout analysis, and to allow for comprehensive overview of marital influence on pregnancy and childbirth.
 
 We will use our analysis to prove or disprove the following hypotheses regarding marital status and pregnancy:
 
@@ -57,26 +58,27 @@ We will use our analysis to prove or disprove the following hypotheses regarding
 
 
 ## Missing Data
+
 ```{r, echo=FALSE,eval=FALSE}
 # Code for Missing Data
 head(NCbirths[!complete.cases(NCbirths),])
 ```
 
-Using R, we were able to find 41 observations where at least 1 variable had missing data. We decided to discard all 41 observations, since it wouldn't be taking too much away from the whole population in the dataset. Therefore, all of our visualizations and analyses use this cleaned dataset (NCbirths1).
+Using R, we were able to find 41 observations where at least 1 variable had missing data. We decided to discard all 41 observations, because eliminating these entries would not remove an extensive amount of data from the entire collection of data. We also examined the individual entries missing data, and concluded that there was not common trend among participants for whom information was missing. (If there had been a trend- for example, if all Japanese mothers neglected to provide their marital status, then removing data could have posed a problem when analyzing the data.) All of the visualizations and analysis conducted for this paper utalize the "clean" / "complete" dataset. 
 
 
 ## Visualization of Data
 
-The below plots provide some basic visualiazations of the data collected. The sample collected for this dataset provides ample sample points for the various values the variables can take on.
+The plots below provide some basic visualiazations of the data collected, to gain some familiarity with the dataset. 
 
 
-```{r, fig.height=2, fig.width= 3.6, warning=FALSE, echo=FALSE}
+```{r, fig.height=3, fig.width= 3.6, warning=FALSE, echo=FALSE}
 ggplot(NCbirths1, aes(MomAge, Weeks, color=factor(MomRace))) + geom_point(size=.7) + labs(color="Race")
 
 qplot(Gained, data = NCbirths1, geom = "density", color = factor(Marital)) + ylab("") + labs(color="Marital")
 ```
 
-```{r fig.height = 3, fig.width = 3.6,echo=FALSE}
+```{r fig.height = 4, fig.width = 3.6, echo=FALSE}
 ggplot(NCbirths1, aes(MomAge, Marital, color = RaceMom)) + geom_point() 
 
 ggplot(NCbirths1, aes(MomAge, Gained, color=factor(Marital))) + geom_point(size=0.7) + labs(color="Marital")
@@ -84,12 +86,11 @@ ggplot(NCbirths1, aes(MomAge, Gained, color=factor(Marital))) + geom_point(size=
 
 # 2. Individual Analyses
 
+
 \newpage
 
 
-##Athena's Work
-
-#Variables to Consider: Marital Status, RaceMom, MomAge
+## Variables to Consider: Marital Status, RaceMom, MomAge
 
 Note:
 RaceMom	1=white, 2=black, 3=American Indian, 4=Chinese, 5=Japanese, 6=Hawaiian, 7=Filipino, or 8=Other 
@@ -105,17 +106,16 @@ NCbirths_filipino = subset(NCbirths1, RaceMom == 7)
 NCbirths_other = subset(NCbirths1, RaceMom == 8)
 ```
 
-```{r, fig.height=2, fig.width= 3.7, warning=FALSE, echo=FALSE}
-ggplot(NCbirths1, aes(RaceMom)) + geom_histogram()
+```{r, fig.height=4, fig.width= 4, warning=FALSE, echo=FALSE}
+ggplot(NCbirths1, aes(RaceMom), color = factor(cyl)) + geom_histogram() + ggtitle("Data Collected for Racial Groups")
 
-ggplot(NCbirths1, aes(MomAge, RaceMom, color = factor(Marital))) + geom_point() + ggtitle("Age, Race and Marital Status")
+ggplot(NCbirths1, aes(RaceMom, MomAge, color = factor(Marital))) + geom_point() + ggtitle("Age, Race and Marital Status")
 
-ggplot(NCbirths1, aes(MomAge, Marital, color = RaceMom)) + geom_point() 
 ```
 
-Notes: This graphic illustrate the pitfalls of conducting a convenience sample. The groups represented clearly neglect certain subsets of the population (for example, there hawaiian individuals are not represented in the dataset). There is one data point for the filipino race- this means that the entire set of statistics computed for this subset is based on one individual. It is important to keep this in mind when interpreting any statistics computed 
+Notes: This graphic illustrates the pitfalls of conducting a convenience sample. The groups represented clearly neglect certain subsets of the population (for example, the hawaiian individuals are not represented in the dataset). There is one data point for the Filipino race- this means that the entire set of statistics computed for the Filipino subset is based on one individual. It is important to keep this oversimplification in mind when interpreting any statistics computed 
 
-It is also fascinating to look at this distribution, once it has been factored by marital status. We can dive into this exploration further, by comparing means of different subsets within the population. 
+It is also fascinating to examine this distribution after it has been factored by marital status. We can dive into this exploration further, by comparing the mean MomAge value computed for different subsets within the population. 
 
 ```{r, include = FALSE, eval = FALSE, tidy = TRUE}
 
@@ -148,7 +148,7 @@ other_mean = age_other[4]
 
 Mean Values Computed: 
 
-**Variable**    |  **Explanation**
+**Race*    *    |  **Mean MomAge**
 --------------  | -----------------
 population      | 26.76
 white           | 27.92
@@ -161,7 +161,7 @@ filipino        | 37
 other           | 28.86 
 
  
-I also applied several t-tests of the data, to evaluate if the difference in means for subsets of the populations is statistically significant. These computations allow for extraction of a pvalue (pvalue gives the probability of obtaining a result equal to / more extreme than the outcome observed, given the the assumption that the null hypothesis is true.) The Ttest null hypothesis states that the difference in mean values is not statistically significant. However, if the pvalue is very small (less than alpha), we can reject the null hypothesis, and conclude that the difference in mean values is statistically significant. 
+I also applied several t-tests of the data, in order to evaluate whether the difference in means for subsets of the populations is statistically significant. These computations allow for extraction of a pvalue (pvalue gives the probability of obtaining a result equal to / more extreme than the outcome observed, under the the assumption that the null hypothesis is true.) The Ttest null hypothesis states that the difference in mean values is not statistically significant. However, if the pvalue is very small (less than alpha), we can reject the null hypothesis, and conclude that the difference in mean values is statistically significant. 
 
 
 ```{r, include = FALSE, tidy = TRUE, eval = FALSE}
@@ -193,10 +193,11 @@ t_other = ttest_other_population[3]
 
 
 TTest P-Values
-Difference in mom age- comparing racial groups to the entire population 
+
+Difference in mom age- comparing specific racial groups to the entire population 
 
 **Race    **    |  **Pvalue**      | **Significance**
---------------  | ---------------- | -------- 
+----------------| ---------------- | ------------------------------------------------------ 
                 |                  |
 white           | 4.730464e-06     | Reject the null- statistically significant difference
 black           | 1.486671e-09     | Reject the null- statistically significant difference
@@ -223,7 +224,7 @@ This TTest determines if there is a statistically significant difference in MomA
 
 We can also execute T-Tests comparing MomAge between married and non-married women. This computation can take place after extracting a particular subset of the data (for example, the subset of white individuals). This allows for further insight into the overall dataset. 
 
-T-Tests, Comparing MomAge between married and not-married women (factored by race)
+T-Tests, Comparing MomAge between married and non-married women (factored by race)
 
 ```{r, include = FALSE, tidy = TRUE, eval = FALSE}
 #T Test, Entire Population- Married vs. Not-Married
@@ -268,7 +269,7 @@ t_other_agemarried = ttest_other_married[3]
 
 
 **Race    **    |  **Pvalue**      | **Significance**
---------------  | ---------------- | -------- 
+----------------| ---------------- | ------------------------------------------------------ 
                 |                  |
 white           | 4.003403e-30     | Reject the null- statistically significant difference
 black           | 4.793121e-18     | Reject the null- statistically significant difference
@@ -280,14 +281,13 @@ filipino        | NaN              |
 other           | 0.0001803798     | Reject the null- statistically significant difference
 Population      | 2.929577e-72     |
 
-The pvalues computed, and the conclusions we draw from these pvalues, provide interesting insight into the dataset. For example, the japanese subset is the only population within which the age of married vs. not-married mothers is not statistically significant. The power of the T-Test is its ability to make sense of large datasets, and to determine which differences are meaningful (as opposed to natural variation within the population). 
+The pvalues computed, and the conclusions we draw from these pvalues, provide interesting insight into the dataset. For example, the japanese subset is the only population for which the age of married vs. not-married mothers is not statistically significant. The power of the T-Test lies in its ability to make sense of large datasets, and to determine which differences are meaningful (as opposed to natural variation which exists within the population). 
 
-Playing around with some new regression code:
-
-It would be very interesting to build a repression predicting MomAge from MomRace and Marital Status. This regression is based around an interaction of variables, and will result in B values for each possible combination (example- white married, white not married, black married, black not married...). The regression will be centered around (MomAge - Population_mean_age), the difference between MomAge for a specific subset, and the overall population average age. This regression does not require an intercept (because it is categorical, not continuous data). 
+Another powerful story emerges when we build a regression model to predict MomAge from MomRace and Marital Status. This regression is based on the concept of variable interaction (that MomRace and Marital interact in unique ways, to influence predictions made of MomAge). The regression will result in B values for each possible combination (example- white married, white not married, black married, black not married...). The regression attempts to model (MomAge - Population_mean_age), the difference between MomAge for a specific subset, and the overall average population age. This regression does not require an intercept (because it is categorical, not continuous data), hence the -1 term. 
 
 
-```{r, echo = FALSE, tidy = TRUE}
+```{r, eval = FALSE, echo = FALSE, tidy = TRUE}
+
 #based on computation above, population_mean = 26.76
 #PROBLEM WITH THIS- there is no order / meaning to organization of races (white, black, chinese...)
 Marital_factor <- factor(NCbirths1$Marital, levels = c("1", "2"), labels = c("married", "not married"))
@@ -304,12 +304,38 @@ MomAgeFit_RaceMom_Marital
 
 ```
 
-The coefficients produced from this regression tell an intriguing story about the interaction that occurs between these two sociological variables (race and marital status), and the influence this interaction has when predicting MomAge.
+
+Coefficients Observed 
+
+**Subset**                  |  **Coefficient** | **Notes**
+----------------------------| ---------------- | ----------------------------------
+                            |                  |
+white married               |  2.4118          |  
+white not married           | -6.2118          |
+black married               |  1.7036          |
+black not married           |  0.3761          |
+American Indian Married     |  2.2400          |
+American Indian Not Married |	-1.5025          |
+Japanese Married            | -1.1067          |
+Japanese Not Married        |  4.4156          |
+Filipino Married            |  10.2400         |
+Filipino Not Married        |  NA              |
+Chinese Married             |  4.2400          |
+Chinese Naarried            |  NA              |
+Other Married               |  4.5341          |
+Other Not Married           | -4.4823          |
+ 
+Interpreting the coefficients observed: Each coefficient observed reveals the difference in MomAge between the particular subset being considered, and the average MomAge for the entire population sampled (which is 26.76, based on computing the mean of all data points). For example, the coefficient computed for white married individuals (2.4118) reveals that white married individuals tend to have children 2.4118 years after the average individual, based on the entire population sampled. On average, White non-married individuals are predicted to have children 6.2118 years before the average person, based on coefficients produced from this regression.
+
+All of the coefficients provide insight into the interaction that occurs between these two sociological variables (race and marital status), and the influence this interaction has when when predicting MomAge.
+
+It should be noted that any missing values indicate an absence of data. For example, there is insufficient data on hawaiian individuals to apply a regression model for this specific subset. 
 
 
 \newpage
 
 ## Marital Status, Child Weight &  Weeks of Gestation
+
 In this section, we will explore the relationship between the weight of the child at birth and the number of weeks of gestation. We will also use marital status as a categorical variable to explore whether or not there exists a relationship between marital status and child weight.
 
 ```{r, fig.height=2, fig.width= 3.7, warning=FALSE, echo=FALSE}
