@@ -84,11 +84,9 @@ ggplot(NCbirths1, aes(MomAge, Marital, color = RaceMom)) + geom_point()
 ggplot(NCbirths1, aes(MomAge, Gained, color=factor(Marital))) + geom_point(size=0.7) + labs(color="Marital")
 ```
 
-# 2. Individual Analyses
-
 
 \newpage
-
+# 2. Individual Analyses
 
 ## Variables to Consider: Marital Status, RaceMom, MomAge
 
@@ -106,14 +104,16 @@ NCbirths_filipino = subset(NCbirths1, RaceMom == 7)
 NCbirths_other = subset(NCbirths1, RaceMom == 8)
 ```
 
-```{r, fig.height=4, fig.width= 4, warning=FALSE, echo=FALSE}
+```{r, fig.height=4, fig.width= 3.7, warning=FALSE, echo=FALSE}
 ggplot(NCbirths1, aes(RaceMom), color = factor(cyl)) + geom_histogram() + ggtitle("Data Collected for Racial Groups")
 
 ggplot(NCbirths1, aes(RaceMom, MomAge, color = factor(Marital))) + geom_point() + ggtitle("Age, Race and Marital Status")
 
 ```
 
+
 Notes: This graphic illustrates the pitfalls of conducting a convenience sample. The groups represented clearly neglect certain subsets of the population (for example, the hawaiian individuals are not represented in the dataset). There is one data point for the Filipino race- this means that the entire set of statistics computed for the Filipino subset is based on one individual. It is important to keep this oversimplification in mind when interpreting any statistics computed 
+
 
 It is also fascinating to examine this distribution after it has been factored by marital status. We can dive into this exploration further, by comparing the mean MomAge value computed for different subsets within the population. 
 
@@ -162,6 +162,7 @@ other           | 28.86
 
  
 I also applied several t-tests of the data, in order to evaluate whether the difference in means for subsets of the populations is statistically significant. These computations allow for extraction of a pvalue (pvalue gives the probability of obtaining a result equal to / more extreme than the outcome observed, under the the assumption that the null hypothesis is true.) The Ttest null hypothesis states that the difference in mean values is not statistically significant. However, if the pvalue is very small (less than alpha), we can reject the null hypothesis, and conclude that the difference in mean values is statistically significant. 
+
 
 
 ```{r, include = FALSE, tidy = TRUE, eval = FALSE}
@@ -281,6 +282,7 @@ filipino        | NaN              |
 other           | 0.0001803798     | Reject the null- statistically significant difference
 Population      | 2.929577e-72     |
 
+
 The pvalues computed, and the conclusions we draw from these pvalues, provide interesting insight into the dataset. For example, the japanese subset is the only population for which the age of married vs. not-married mothers is not statistically significant. The power of the T-Test lies in its ability to make sense of large datasets, and to determine which differences are meaningful (as opposed to natural variation which exists within the population). 
 
 Another powerful story emerges when we build a regression model to predict MomAge from MomRace and Marital Status. This regression is based on the concept of variable interaction (that MomRace and Marital interact in unique ways, to influence predictions made of MomAge). The regression will result in B values for each possible combination (example- white married, white not married, black married, black not married...). The regression attempts to model (MomAge - Population_mean_age), the difference between MomAge for a specific subset, and the overall average population age. This regression does not require an intercept (because it is categorical, not continuous data), hence the -1 term. 
@@ -325,6 +327,7 @@ Chinese Naarried            |  NA              |
 Other Married               |  4.5341          |
 Other Not Married           | -4.4823          |
  
+
 Interpreting the coefficients observed: Each coefficient observed reveals the difference in MomAge between the particular subset being considered, and the average MomAge for the entire population sampled (which is 26.76, based on computing the mean of all data points). For example, the coefficient computed for white married individuals (2.4118) reveals that white married individuals tend to have children 2.4118 years after the average individual, based on the entire population sampled. On average, White non-married individuals are predicted to have children 6.2118 years before the average person, based on coefficients produced from this regression.
 
 All of the coefficients provide insight into the interaction that occurs between these two sociological variables (race and marital status), and the influence this interaction has when when predicting MomAge.
