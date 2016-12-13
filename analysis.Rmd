@@ -397,7 +397,7 @@ For this segment, we are looking at the relationship between marital the weight 
 
 ```{r,fig.height = 3, fig.width = 3.6,echo=FALSE}
 multi <- factor(NCbirths1$Plural, levels = c(1,2,3), labels = c("single", "twins", "triplets"))
-multiCut <- cut(NCbirths1$Plural, breaks = c(1,2,3), labels = c("single", "twins", "triplets"))
+multiCut <- cut(NCbirths1$Plural, breaks = c(0,1,2,3), labels = c("single", "twins", "triplets"))
 table(multiCut)
 married <- factor(NCbirths1$Marital, levels = c(1,2), labels = c("Married", "Non-Married"))
 ggplot(NCbirths1, aes(Plural, BirthWeightOz, color=factor(Marital))) + geom_point() + geom_smooth(method = 'lm',span = 3) + labs(color="Marital")
