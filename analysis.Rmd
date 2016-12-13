@@ -3,8 +3,6 @@ title: "NCbirths Analysis"
 author: "Matt Robinson, Athena Higgins, Ethan Sennett, Peter Nguyen"
 date: "12/7/2016"
 output:
-  html_document:
-    toc: yes
   pdf_document:
     toc: yes
 ---
@@ -89,7 +87,7 @@ ggplot(NCbirths1, aes(MomAge, Gained, color=factor(Marital))) + geom_point(size=
 \newpage
 # 2. Individual Analyses
 
-## Variables to Consider: Marital Status, RaceMom, MomAge
+## Variables to Consider: Marital Status, RaceMom, MomAge (Athena Higgins)
 
 Note:
 RaceMom	1=white, 2=black, 3=American Indian, 4=Chinese, 5=Japanese, 6=Hawaiian, 7=Filipino, or 8=Other 
@@ -338,8 +336,7 @@ It should be noted that any missing values indicate an absence of data. For exam
 
 \newpage
 
-## Marital Status, Child Weight &  Weeks of Gestation
-## By Peter Nguyen
+## Marital Status, Child Weight &  Weeks of Gestation (Matt Robinson)
 In this section, we will explore the relationship between the weight of the child at birth and the number of weeks of gestation. We will also use marital status as a categorical variable to explore whether or not there exists a relationship between marital status and child weight.
 
 ```{r, fig.height=2, fig.width= 3.7, warning=FALSE, echo=FALSE}
@@ -357,7 +354,11 @@ The above plots confirm that the data we will be looking at is normally distribu
 ```{r, include=FALSE}
 a = lm(BirthWeightOz ~ Weeks + Marital, data=NCbirths1)
 b = lm(BirthWeightOz ~ ns(Weeks, df=4) + Marital, data=NCbirths1)
+wks <- seq(22,45,1)
+newData <- data.frame(Weeks=c(wks, wks), Marital=c(rep(1, times=length(wks)), rep(2, times=length(wks))))
+newData$pred <- predict(b, newdata = newData, type="response")
 ```
+
 ```{r, echo=FALSE}
 kable(summary(a)$coef, digits=2)
 ```
@@ -373,8 +374,9 @@ ggplot(a, aes(a$residuals)) +
 ```
 The above plots are useful for checking the conditions for linear regression models. From the right plot, we can see that there appears to be a normal distribution of residuals. The left plot gives us an indication that this relationship may not be linear, there appears to be a slight curve in the residuals plot. This could be due to missing data, as both the residual plot and the scatterplot from the beginning show us that there is a large amount of data collected on births involving 35 or more weeks of gestation, but not much data on lower weeks. If we had more data, the model would be less influenced by high-leverage points on both the lower end and higher end of the spectrum. 
 
+
 ```{r, fig.height=3, fig.width=6, echo=FALSE}
-ggplot(NCbirths1, aes(Weeks, BirthWeightOz, color=factor(marital_cat))) + geom_point() + geom_smooth(method='lm', formula=y~splines::bs(x,4), se=FALSE) + labs(color="Marital")
+ggplot() + geom_line(data=newData, aes(Weeks, pred, color=factor(Marital))) + geom_point(data=NCbirths1, aes(Weeks, BirthWeightOz, color=factor(Marital)))
 ```
 
 ```{r, fig.height=1.5, fig.width= 3.2, warning=FALSE, echo=FALSE}
@@ -389,7 +391,7 @@ We can fit a slightly better model using a natural spline, which fits a curved l
 
 \newpage
 
-## Martial Status, Child Weight & Multiple Births (Plural)
+## Martial Status, Child Weight & Multiple Births (Peter Nguyen)
 For this segment, we are looking at the relationship between marital the weight of the child and if there was multiple births. Like with the other segements, we are using the marital status of the mother to see if there is any relationship between them. 
 
 ```{r,fig.height = 3, fig.width = 3.6,echo=FALSE}
