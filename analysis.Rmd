@@ -343,13 +343,13 @@ It should be noted that any missing values indicate an absence of data. For exam
 In this section, we will explore the relationship between the weight of the child at birth and the number of weeks of gestation. We will also use marital status as a categorical variable to explore whether or not there exists a relationship between marital status and child weight.
 
 ```{r, fig.height=2, fig.width= 3.7, warning=FALSE, echo=FALSE}
-qplot(Weeks, data = NCbirths1, geom = "density", color = factor(Marital)) + ylab("") + labs(color="Marital")
+qplot(Weeks, data = NCbirths1, geom = "density", color = factor(marital_cat)) + ylab("") + labs(color="Marital")
 
-qplot(BirthWeightOz, data = NCbirths1, geom = "density", color = factor(Marital)) + ylab("") + labs(color="Marital")
+qplot(BirthWeightOz, data = NCbirths1, geom = "density", color = factor(marital_cat)) + ylab("") + labs(color="Marital")
 ```
 
 ```{r, fig.height=3, fig.width=6.5, echo=FALSE}
-ggplot(NCbirths1, aes(Weeks, BirthWeightOz, color=factor(Marital))) + geom_point() + geom_smooth(method='lm', se=FALSE) + labs(color="Marital")
+ggplot(NCbirths1, aes(Weeks, BirthWeightOz, color=factor(marital_cat))) + geom_point() + geom_smooth(method='lm', se=FALSE) + labs(color="Marital")
 ```
 
 The above plots confirm that the data we will be looking at is normally distributed. Some key insight we gain from the density plot on the right and the scatterplot on the bottom is that there exists a larger mean birth weight in births involving a married mother compared to births involving a non-married mother. By fitting a linear model, we can get a more tangible value for this relationship.
@@ -374,7 +374,7 @@ ggplot(a, aes(a$residuals)) +
 The above plots are useful for checking the conditions for linear regression models. From the right plot, we can see that there appears to be a normal distribution of residuals. The left plot gives us an indication that this relationship may not be linear, there appears to be a slight curve in the residuals plot. This could be due to missing data, as both the residual plot and the scatterplot from the beginning show us that there is a large amount of data collected on births involving 35 or more weeks of gestation, but not much data on lower weeks. If we had more data, the model would be less influenced by high-leverage points on both the lower end and higher end of the spectrum. 
 
 ```{r, fig.height=3, fig.width=6, echo=FALSE}
-ggplot(NCbirths1, aes(Weeks, BirthWeightOz, color=factor(Marital))) + geom_point() + geom_smooth(method='lm', formula=y~splines::bs(x,4), se=FALSE) + labs(color="Marital")
+ggplot(NCbirths1, aes(Weeks, BirthWeightOz, color=factor(marital_cat))) + geom_point() + geom_smooth(method='lm', formula=y~splines::bs(x,4), se=FALSE) + labs(color="Marital")
 ```
 
 ```{r, fig.height=1.5, fig.width= 3.2, warning=FALSE, echo=FALSE}
