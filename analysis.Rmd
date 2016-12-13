@@ -498,3 +498,7 @@ ggplot(NCbirths4, aes(MomAge, Gained)) + geom_point(size=1) +geom_vline(xinterce
 ```
 
 Once again, looking at the spread of observations in relation to the median age of 27, married women are distributed almost perfectly even from the youngest to oldest observations. But it's clear to see that, with unmarried women, after 27 the observations become very sparse. Before 27, there are many more observations and they're very condensed in that small section. Considering that the average age a women gets married in the U.S. is currently 27, this plot shows a strong confirmation of that statistic.
+
+\newpage
+
+# 3. Conclusion / Discussion
