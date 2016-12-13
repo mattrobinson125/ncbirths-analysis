@@ -418,7 +418,7 @@ From looking at the summary of the birthWeight, we would expect having multiple 
 
 \newpage
 
-## Marital Status, Age of Mother, and Weight Gained
+## Marital Status, Age of Mother, and Weight Gained (Ethan Sennett)
 
 ```{r,echo=FALSE}
 data(NCbirths)
@@ -491,6 +491,8 @@ One last thing we can take away from the initial plot:
 ggplot(NCbirths3, aes(MomAge, Gained)) + geom_point(size=1) +geom_vline(xintercept = 27) + ggtitle("Married")
 
 ggplot(NCbirths4, aes(MomAge, Gained)) + geom_point(size=1) +geom_vline(xintercept = 27) + ggtitle("Unmarried")
+
+
 
 ```
 
