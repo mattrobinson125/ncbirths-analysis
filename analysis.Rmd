@@ -16,6 +16,7 @@ library(splines)
 library(knitr)
 data(NCbirths)
 NCbirths1<-na.omit(NCbirths)
+NCbirths1$marital_cat <- factor(NCbirths1$Marital, levels=c(1,2), labels=c("married", "not married"))
 
 ```
 
