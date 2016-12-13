@@ -357,6 +357,7 @@ b = lm(BirthWeightOz ~ ns(Weeks, df=4) + Marital, data=NCbirths1)
 wks <- seq(22,45,1)
 newData <- data.frame(Weeks=c(wks, wks), Marital=c(rep(1, times=length(wks)), rep(2, times=length(wks))))
 newData$pred <- predict(b, newdata = newData, type="response")
+newData$marital_cat <- factor(newData$Marital, levels=c(1,2), labels=c("married", "not married"))
 ```
 
 ```{r, echo=FALSE}
@@ -376,7 +377,7 @@ The above plots are useful for checking the conditions for linear regression mod
 
 
 ```{r, fig.height=3, fig.width=6, echo=FALSE}
-ggplot() + geom_line(data=newData, aes(Weeks, pred, color=factor(Marital))) + geom_point(data=NCbirths1, aes(Weeks, BirthWeightOz, color=factor(Marital)))
+ggplot() + geom_line(data=newData, aes(Weeks, pred, color=factor(marital_cat))) + geom_point(data=NCbirths1, aes(Weeks, BirthWeightOz, color=factor(marital_cat))) + labs(color="Marital")
 ```
 
 ```{r, fig.height=1.5, fig.width= 3.2, warning=FALSE, echo=FALSE}
