@@ -3,9 +3,9 @@ title: "NCbirths Analysis"
 author: "Matt Robinson, Athena Higgins, Ethan Sennett, Peter Nguyen"
 date: "12/7/2016"
 output:
-  pdf_document:
-    toc: yes
   html_document:
+    toc: yes
+  pdf_document:
     toc: yes
 ---
 
@@ -339,7 +339,7 @@ It should be noted that any missing values indicate an absence of data. For exam
 \newpage
 
 ## Marital Status, Child Weight &  Weeks of Gestation
-
+## By Peter Nguyen
 In this section, we will explore the relationship between the weight of the child at birth and the number of weeks of gestation. We will also use marital status as a categorical variable to explore whether or not there exists a relationship between marital status and child weight.
 
 ```{r, fig.height=2, fig.width= 3.7, warning=FALSE, echo=FALSE}
@@ -392,15 +392,18 @@ We can fit a slightly better model using a natural spline, which fits a curved l
 ## Martial Status, Child Weight & Multiple Births (Plural)
 For this segment, we are looking at the relationship between marital the weight of the child and if there was multiple births. Like with the other segements, we are using the marital status of the mother to see if there is any relationship between them. 
 
-```{r, echo = FALSE}
-
+```{r,fig.height = 3, fig.width = 3.6,echo=FALSE}
+multi <- factor(NCbirths1$Plural, levels = c(1,2,3), labels = c("single", "twins", "triplets"))
+multiCut <- cut(NCbirths1$Plural, breaks = c(1,2,3), labels = c("single", "twins", "triplets"))
+table(multiCut)
+married <- factor(NCbirths1$Marital, levels = c(1,2), labels = c("Married", "Non-Married"))
 ggplot(NCbirths1, aes(Plural, BirthWeightOz, color=factor(Marital))) + geom_point() + geom_smooth(method = 'lm',span = 3) + labs(color="Marital")
 tapply(NCbirths1$Plural, NCbirths1$Marital, FUN = sum)
 ```
 
 Looking at the graph from above, we can see that there is a trend with BirthWeightOz that is being affected by Marital status of the mother and multiple births. By having a linear model, we can visualize the trend of the data which happens to be a negative trend with the married mother having a higher average birth weight than a single mother. We also note that being a married mother, the chances of having multiple children during a single birth is higher than a single mother they are more likely to have atleast one child. There could be some explaination for this where the single mother thought that she could not be able to provide for multiple children and chose not to keep them. 
 
-```{r}
+```{r, fig.height = 3, fig.width = 3.6,echo=FALSE}
 qplot(factor(Marital), BirthWeightOz, data = NCbirths1, geom = "boxplot")
 tapply(NCbirths1$BirthWeightOz, NCbirths1$Marital, FUN = mean)
 qplot(factor(Plural), BirthWeightOz, data = NCbirths1, geom = "boxplot")
