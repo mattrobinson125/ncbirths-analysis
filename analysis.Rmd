@@ -433,8 +433,10 @@ This section of the analysis explores the relationship between the age of the su
 
 First, we look at a simple plot of all the observations, excluding cases with missing data:
 
-```{r,fig.height = 3, fig.width = 3.6,echo=FALSE}
-ggplot(NCbirths1, aes(MomAge, Gained, color=factor(Marital))) + geom_point(size=1) + labs(color="Marital")+geom_smooth(method = "lm") +ggtitle("NCbirths")
+```{r,fig.height = 3, fig.width = 3.8,echo=FALSE}
+ggplot(NCbirths1, aes(MomAge, Gained, color=factor(marital_cat))) + geom_point(size=1) + labs(color="Marital Status")+geom_smooth(method = "lm") +ggtitle("NCbirths")
+
+ggplot(NCbirths1, aes(MomAge, Gained, color=factor(marital_cat))) + geom_point(size=1) + labs(color="Marital Status")+geom_vline(xintercept = 27) + ggtitle("NCbirths1 with x-intercept of x = 27")
 
 ```
 
@@ -443,7 +445,6 @@ Compared to our original hypothesis of this relation, our inital plot shows litt
 ```{r, fig.height = 3, fig.width = 3.6,echo=FALSE}
 
 
-ggplot(NCbirths1, aes(MomAge, Gained, color=factor(Marital))) + geom_point(size=1) + labs(color="Marital")+geom_vline(xintercept = 27) + ggtitle("NCbirths1 with x-intercept of x = 27")
 
 ggplot(NCbirths2, aes(MomAge, Gained)) + geom_point(size=1) + labs(color="Marital") + geom_smooth(method = "lm") +ggtitle("Unmarried and 27 or Younger")
 
@@ -461,7 +462,7 @@ It appears that there could be a stronger relationship between age and weight ga
 
 ```{r,eval=FALSE,echo=FALSE}
 
-fm<-lm(Gained~MomAge*Marital,data=NCbirths1)
+fm<-lm(Gained~MomAge*marital_cat,data=NCbirths1)
 fm1<-lm(Gained~MomAge, data = NCbirths2)
 summary(fm)$coefficients
 summary(fm1)$coefficients
