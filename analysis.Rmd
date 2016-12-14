@@ -79,20 +79,20 @@ qplot(Gained, data = NCbirths1, geom = "density", color = factor(Marital)) + yla
 ```
 
 ```{r fig.height = 4, fig.width = 3.6, echo=FALSE}
-ggplot(NCbirths1, aes(MomAge, Marital, color = RaceMom)) + geom_point() 
+ggplot(NCbirths1, aes(MomAge, Marital, color = RaceMom)) + geom_point() + labs(color = "Race")
 
 ggplot(NCbirths1, aes(MomAge, Gained, color=factor(Marital))) + geom_point(size=0.7) + labs(color="Marital")
 ```
 
 
 \newpage
-# 2. Individual Analyses
 
-## Variables to Consider: Marital Status, RaceMom, MomAge
+#2. Individual Analyses
 
-Note:
-RaceMom	1=white, 2=black, 3=American Indian, 4=Chinese, 5=Japanese, 6=Hawaiian, 7=Filipino, or 8=Other 
-
+\newpage
+## Mother's Marital Status, Race, and Age
+RaceMom Factor
+1=white, 2=black, 3=American Indian, 4=Chinese, 5=Japanese, 6=Hawaiian, 7=Filipino, or 8=Other 
 ```{r, include = FALSE}
 NCbirths_white = subset(NCbirths1, RaceMom == 1)
 NCbirths_black = subset(NCbirths1, RaceMom == 2)
@@ -102,20 +102,20 @@ NCbirths_japanese = subset(NCbirths1, RaceMom == 5)
 NCbirths_hawaiian = subset(NCbirths1, RaceMom == 6)
 NCbirths_filipino = subset(NCbirths1, RaceMom == 7)
 NCbirths_other = subset(NCbirths1, RaceMom == 8)
+
+MomAge_cat <- cut(NCbirths$MomAge, breaks = c(0,10,20,30,40,50), labels = c("0-10", "10-20", "20-30", "30-40", "40-50"))
 ```
 
-```{r, fig.height=4, fig.width= 3.7, warning=FALSE, echo=FALSE}
+```{r, fig.height=2, fig.width= 3.7, warning=FALSE, echo=FALSE}
 ggplot(NCbirths1, aes(RaceMom), color = factor(cyl)) + geom_histogram() + ggtitle("Data Collected for Racial Groups")
 
 ggplot(NCbirths1, aes(RaceMom, MomAge, color = factor(Marital))) + geom_point() + ggtitle("Age, Race and Marital Status")
 
+#plot(MomAge_cat) + geom_title("Distribution of Mother's Age")
 ```
+These graphics illustrate the pitfalls of conducting a convenience sample. The groups represented clearly neglect certain subsets of the population (for example, hawaiian individuals are not represented in the dataset). It is important to keep this oversimplification in mind, when interpreting any statistics computed 
 
-
-Notes: This graphic illustrates the pitfalls of conducting a convenience sample. The groups represented clearly neglect certain subsets of the population (for example, the hawaiian individuals are not represented in the dataset). There is one data point for the Filipino race- this means that the entire set of statistics computed for the Filipino subset is based on one individual. It is important to keep this oversimplification in mind when interpreting any statistics computed 
-
-
-It is also fascinating to examine this distribution after it has been factored by marital status. We can dive into this exploration further, by comparing the mean MomAge value computed for different subsets within the population. 
+This distribution takes on new meaning when factored by marital status and reexamined. Applying the T-test, we can compare the mean MomAge value computed for different subsets within the entire population. 
 
 ```{r, include = FALSE, eval = FALSE, tidy = TRUE}
 
@@ -130,9 +130,7 @@ age_filipino <- summary(subset(NCbirths, RaceMom == 7, select = MomAge))
 age_other <- summary(subset(NCbirths1, RaceMom == 8, select = MomAge))
 ```
 
-
 The following are mean age values for new mothers, categorized by their race. 
-
 ```{r, include = FALSE, tidy = TRUE, eval = FALSE}
 #Additional Comparison of Means
 population_mean =  summary(subset(NCbirths, select = MomAge))
@@ -145,26 +143,12 @@ hawaiian_mean = age_hawaiian[4]
 filipino_mean = age_filipino[4]
 other_mean = age_other[4]
 ```
+**Race**        |**MomAge**           | **Race**        |  **MomAge**      | **Race**      |**MomAge**   | **Race** |**MomAge**
+--------------  | ----------          |-----------      |------------------|---------------|-------------|----------|----------
+population      | 26.76               |chinese          | 31.0             | black         | 24.53       |filipino  |    37  
+white           | 27.92               |japanese         | 24.75            |american indian| 24.09       |other     | 28.86 
 
-Mean Values Computed: 
-
-**Race*    *    |  **Mean MomAge**
---------------  | -----------------
-population      | 26.76
-white           | 27.92
-black           | 24.53 
-american indian | 24.09  
-chinese         | 31.0 
-japanese        | 24.75 
-hawaiian     	  | NaN 
-filipino        | 37 
-other           | 28.86 
-
- 
-I also applied several t-tests of the data, in order to evaluate whether the difference in means for subsets of the populations is statistically significant. These computations allow for extraction of a pvalue (pvalue gives the probability of obtaining a result equal to / more extreme than the outcome observed, under the the assumption that the null hypothesis is true.) The Ttest null hypothesis states that the difference in mean values is not statistically significant. However, if the pvalue is very small (less than alpha), we can reject the null hypothesis, and conclude that the difference in mean values is statistically significant. 
-
-
-
+The T-Test can also be applied to evaluate the statistical significance of variation observed in means, for diferent subsets of the populations. These computations allow for extraction of a pvalue (pvalue gives the probability of obtaining a result equal to or more extreme than the outcome observed, under the the assumption that the null hypothesis is true.) The T-Test null hypothesis states that the difference in mean values is not statistically significant. However, if the pvalue is very small (less than alpha), we can reject the null hypothesis, and conclude that the difference in mean values is statistically significant. 
 ```{r, include = FALSE, tidy = TRUE, eval = FALSE}
 
 ttest_white_population <- t.test(subset(NCbirths, RaceMom == 1, select = MomAge), subset(NCbirths, select = MomAge))
@@ -191,28 +175,15 @@ t_japanese = ttest_japanese_population[3]
 ttest_other_population <- t.test(subset(NCbirths, RaceMom == 8, select = MomAge), subset(NCbirths, select = MomAge))
 t_other = ttest_other_population[3]
 ```
+Evaluating the difference in mean MomAge between specific racial groups and the entire population
 
-
-TTest P-Values
-
-Difference in mom age- comparing specific racial groups to the entire population 
-
-**Race    **    |  **Pvalue**      | **Significance**
-----------------| ---------------- | ------------------------------------------------------ 
-                |                  |
-white           | 4.730464e-06     | Reject the null- statistically significant difference
-black           | 1.486671e-09     | Reject the null- statistically significant difference
-american indian | 0.03067128       | Depending on alpha, statistically significant difference
-chinese         | NaN              | 
-japanese        | 1.335714e-05     | Reject the null- statistically significant difference
-hawaiian     	  | NaN              |
-filipino        | NaN              |  
-other           | 0.1550142        | Fail to reject
-white vs. black | 4.78133e-18      | Reject the null- statistically significant difference
-
-
-
-Other types of T-tests
+**Race    **    |  **Pvalue**      | **Significance**     |                |                  |
+----------------| ---------------- | ---------------------|----------------|----------------  |---------------------
+white           | 4.730464e-06     | Reject the null      |japanese        | 1.335714e-05     | Reject the null      |
+black           | 1.486671e-09     | Reject the null      |hawaiian     	 | NaN              |
+american indian | 0.03067128       | Depending on alpha   |filipino        | NaN              |  
+chinese         | NaN              |                      |other           | 0.1550142        | Fail to reject
+white vs. black | 4.78133e-18      | Reject the null
 
 ```{r, include = FALSE, tidy = TRUE, eval = FALSE}
 #T Test, Comparing MomaAge White and Black MomAge
@@ -220,13 +191,11 @@ ttest_white_black <- t.test(subset(NCbirths, RaceMom == 1, select = MomAge), sub
 t_white_black = ttest_white_black[3]
 
 ```
+The T-Test can also be used to determine if there is a statistically significant difference in MomAge between racial groups. Comparing white and black mothers, the p-value computed (4.78133e-18) prompts us to reject the null hypothesis, and conclude that there is a statistically significant difference in average age of mother giving birth. 
 
-This TTest determines if there is a statistically significant difference in MomAge between different racial groups. When comparing white and black mothers, the p-value computed (4.78133e-18) prompts us to reject the null hypothesis, and conclude that there is a statistically significant difference in ages. 
+Interesting observations follow from executing T-Tests to compare MomAge for married and non-married women, for different subsets of the population (for example- mean MomAge for white married women vs. white non-married women). 
 
-We can also execute T-Tests comparing MomAge between married and non-married women. This computation can take place after extracting a particular subset of the data (for example, the subset of white individuals). This allows for further insight into the overall dataset. 
-
-T-Tests, Comparing MomAge between married and non-married women (factored by race)
-
+Comparing MomAge between married and non-married women (factored by race)
 ```{r, include = FALSE, tidy = TRUE, eval = FALSE}
 #T Test, Entire Population- Married vs. Not-Married
 ttest_population_married <- t.test(subset(NCbirths, Marital == 1, select = MomAge), subset(NCbirths, Marital == 2, select = MomAge))
@@ -267,74 +236,55 @@ t_japanese_agemarried = ttest_japanese_married[3]
 ttest_other_married <- t.test(subset(NCbirths, RaceMom == 8 & Marital == 1, select = MomAge), subset(NCbirths, RaceMom == 8 & Marital == 2, select = MomAge))
 t_other_agemarried = ttest_other_married[3]
 ```
-
-
 **Race    **    |  **Pvalue**      | **Significance**
 ----------------| ---------------- | ------------------------------------------------------ 
-                |                  |
 white           | 4.003403e-30     | Reject the null- statistically significant difference
 black           | 4.793121e-18     | Reject the null- statistically significant difference
 american indian | 3.040416e-05     | Reject the null- statistically significant difference
-chinese         | NaN              | 
 japanese        | 0.05769045       | Fail to Reject
-hawaiian     	  | NaN              |
-filipino        | NaN              |  
 other           | 0.0001803798     | Reject the null- statistically significant difference
 Population      | 2.929577e-72     |
 
+(insufficient data to compute p-values for chinese, hawaiian, and filipino subsets)
+The pvalues computed, and the conclusions drawn from these pvalues, allow for unique insight into the dataset. For example, the Japanese subset is the only population for which the age of married vs. not-married mothers is not statistically significant. The power of the T-Test lies in its ability to make sense of large datasets, and to determine which differences are meaningful (to be distinguished from natural variation wgucg exusts throuhout the population). 
 
-The pvalues computed, and the conclusions we draw from these pvalues, provide interesting insight into the dataset. For example, the japanese subset is the only population for which the age of married vs. not-married mothers is not statistically significant. The power of the T-Test lies in its ability to make sense of large datasets, and to determine which differences are meaningful (as opposed to natural variation which exists within the population). 
-
-Another powerful story emerges when we build a regression model to predict MomAge from MomRace and Marital Status. This regression is based on the concept of variable interaction (that MomRace and Marital interact in unique ways, to influence predictions made of MomAge). The regression will result in B values for each possible combination (example- white married, white not married, black married, black not married...). The regression attempts to model (MomAge - Population_mean_age), the difference between MomAge for a specific subset, and the overall average population age. This regression does not require an intercept (because it is categorical, not continuous data), hence the -1 term. 
-
-
+Another powerful story emerges when we build a regression model to predict MomAge from MomRace and Marital Status. This regression is based on the concept of variable interaction (which states that MomRace and Marital-status interact in unique ways, to influence predictions made of MomAge). The regression will result in B values for each possible combination (example- white married, white not married, black married, black not married etc), which indicates the difference in mean mom-age for that specific group, compared to the population at large. The regression models (MomAge - Population_mean_age), the difference between MomAge for a specific subset, and the overall average population age. This regression does not require an intercept (because it is categorical, not continuous data), hence the -1 term. 
 ```{r, eval = FALSE, echo = FALSE, tidy = TRUE}
 
 #based on computation above, population_mean = 26.76
 #PROBLEM WITH THIS- there is no order / meaning to organization of races (white, black, chinese...)
-Marital_factor <- factor(NCbirths1$Marital, levels = c("1", "2"), labels = c("married", "not married"))
+Marital_factor <- factor(NCbirths1$Marital, levels = c(1,2), labels = c("married", "not married"))
 
-RaceMom_factor <- factor(NCbirths1$RaceMom, levels = c("1", "2", "3", "4", "5", "6", "7", "8"), labels = c("White", "Black", "American Indian", "Chinese", "Japanese", "Hawaiian", "Filipino", "Other"))
+RaceMom_factor <- factor(NCbirths1$RaceMom, levels = c(1,2,3,4,5,6,7,8), labels = c("White", "Black", "American Indian", "Chinese", "Japanese", "Hawaiian", "Filipino", "Other"))
 
 MomAgeFit_RaceMom_Marital <- lm((MomAge - 26.76) ~ (RaceMom_factor * Marital_factor) - 1, data = NCbirths1)
 MomAgeFit_RaceMom <- lm((MomAge - 26.76) ~ RaceMom_factor - 1, data = NCbirths1) 
 MomAgeFit_Marital <- lm((MomAge - 26.76) ~ Marital_factor - 1, data = NCbirths1)
+
+plot(RaceMom_factor, Marital_factor)
 
 MomAgeFit_RaceMom_Marital
 #MomAgeFit_RaceMom
 #MomAgeFit_Marital
 
 ```
-
-
+```{r, eval = FALSE, tidy = TRUE}
+MomAgeFit_RaceMom_Marital <- lm((MomAge - 26.76) ~ (RaceMom_factor * Marital_factor) - 1, data = NCbirths1)
+```
 Coefficients Observed 
 
-**Subset**                  |  **Coefficient** | **Notes**
-----------------------------| ---------------- | ----------------------------------
-                            |                  |
-white married               |  2.4118          |  
-white not married           | -6.2118          |
-black married               |  1.7036          |
-black not married           |  0.3761          |
-American Indian Married     |  2.2400          |
-American Indian Not Married |	-1.5025          |
-Japanese Married            | -1.1067          |
-Japanese Not Married        |  4.4156          |
-Filipino Married            |  10.2400         |
-Filipino Not Married        |  NA              |
-Chinese Married             |  4.2400          |
-Chinese Naarried            |  NA              |
-Other Married               |  4.5341          |
-Other Not Married           | -4.4823          |
- 
+**Subset- married**         |  **Coefficient** | **Subset- not married**      | **Coefficient**
+----------------------------| ---------------- | -----------------------------|-----------------
+White Married               |  2.4118          |  White Not Married           | -6.2118      
+Black Married               |  1.7036          |  Black Not Married           |  0.3761          
+American Indian Married     |  2.2400          |  American Indian Not Married |	-1.5025     
+Japanese Married            | -1.1067          |  Japanese Not Married        |  4.4156 
+Filipino Married            |  10.2400         |  Filipino Not Married        |  NA 
+Chinese Married             |  4.2400          |  Chinese Not Married         |  NA
+Hawaiian Married            |  NA              |  Hawaiian Not Married        |  NA
+Other Married               |  4.5341          |  Other Not Married           | -4.4823 
 
-Interpreting the coefficients observed: Each coefficient observed reveals the difference in MomAge between the particular subset being considered, and the average MomAge for the entire population sampled (which is 26.76, based on computing the mean of all data points). For example, the coefficient computed for white married individuals (2.4118) reveals that white married individuals tend to have children 2.4118 years after the average individual, based on the entire population sampled. On average, White non-married individuals are predicted to have children 6.2118 years before the average person, based on coefficients produced from this regression.
-
-All of the coefficients provide insight into the interaction that occurs between these two sociological variables (race and marital status), and the influence this interaction has when when predicting MomAge.
-
-It should be noted that any missing values indicate an absence of data. For example, there is insufficient data on hawaiian individuals to apply a regression model for this specific subset. 
-
-
+Each coefficient observed reveals the difference in MomAge between the particular subset being considered, and the average MomAge for the entire population sampled (26.76). For example, the coefficient computed for white married individuals (2.4118) indicates that white married individuals tend to have children 2.4118 years after the average individual, based on the entire population sampled. On average, White non-married individuals are predicted to have children 6.2118 years before (younger than) the average person, based on coefficients produced from this regression. Each of the coefficients provide insight into the interaction that occurs between these two sociological variables (race and marital status), and the influence this interaction has when when predicting MomAge.
 \newpage
 
 ## Marital Status, Child Weight &  Weeks of Gestation
@@ -494,3 +444,17 @@ ggplot(NCbirths4, aes(MomAge, Gained)) + geom_point(size=1) +geom_vline(xinterce
 ```
 
 Once again, looking at the spread of observations in relation to the median age of 27, married women are distributed almost perfectly even from the youngest to oldest observations. But it's clear to see that, with unmarried women, after 27 the observations become very sparse. Before 27, there are many more observations and they're very condensed in that small section. Considering that the average age a women gets married in the U.S. is currently 27, this plot shows a strong confirmation of that statistic.
+
+
+
+\newpage
+
+# 3. Conclusions and Discussion
+
+It should be noted that there are many missing values throughout the tables and analysis presented, which indicates an absence of data. For example, there is insufficient data on hawaiian individuals to apply a regression model for this specific subset. These missing values are easy easily overlooked in the midst of other discussion- but they indicate an underlying problem throughout the dataset. 
+
+Additionally, it is easy and tempting to draw braod conclusions based on statistical analysis and tests like those applied earlier. However, it is important to remember that observing a trend does not allow mathematicians to draw conclusions about why or how those patterns emerge. For example, one might note that unmarried women tend to have children at a younger age than married women within the same racial subset- however, not conclusions / assumptions should be drawn based on this observaton, especially at such initial stages of data analysis. Additionally, there is insufficient data to say that the observations made here are significant, or could apply to a larger population (the data here represents a convenience sample, and does not accurately depict the entire population). 
+
+Despite these shortfalls, this data certainly tells an intriguing story. Interactions among variables related to the biology and social character of pregnant women provides unique insight into the complexity of childbirth, and the wide variety of factors that influence its unfolding. 
+
+
