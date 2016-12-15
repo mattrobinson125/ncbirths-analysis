@@ -109,7 +109,7 @@ MomAge_cat <- cut(NCbirths$MomAge, breaks = c(0,10,20,30,40,50), labels = c("0-1
 ```{r, fig.height=2, fig.width= 3.7, warning=FALSE, echo=FALSE}
 ggplot(NCbirths1, aes(RaceMom), color = factor(cyl)) + geom_histogram() + ggtitle("Data Collected for Racial Groups")
 
-ggplot(NCbirths1, aes(RaceMom, MomAge, color = factor(Marital))) + geom_point() + ggtitle("Age, Race and Marital Status")
+ggplot(NCbirths1, aes(RaceMom, MomAge, color = factor(marital_cat))) + geom_point() + ggtitle("Age, Race and Marital Status") + labs(color="Marital")
 
 #plot(MomAge_cat) + geom_title("Distribution of Mother's Age")
 ```
@@ -353,14 +353,14 @@ multi <- factor(NCbirths1$Plural, levels = c(1,2,3), labels = c("single", "twins
 multiCut <- cut(NCbirths1$Plural, breaks = c(0,1,2,3), labels = c("single", "twins", "triplets"))
 table(multiCut)
 married <- factor(NCbirths1$Marital, levels = c(1,2), labels = c("Married", "Non-Married"))
-ggplot(NCbirths1, aes(Plural, BirthWeightOz, color=factor(Marital))) + geom_point() + geom_smooth(method = 'lm',span = 3) + labs(color="Marital")
+ggplot(NCbirths1, aes(Plural, BirthWeightOz, color=factor(marital_cat))) + geom_point() + geom_smooth(method = 'lm',span = 3) + labs(color="Marital")
 tapply(NCbirths1$Plural, NCbirths1$Marital, FUN = sum)
 ```
 
 Looking at the graph from above, we can see that there is a trend with BirthWeightOz that is being affected by Marital status of the mother and multiple births. By having a linear model, we can visualize the trend of the data which happens to be a negative trend with the married mother having a higher average birth weight than a single mother. We also note that being a married mother, the chances of having multiple children during a single birth is higher than a single mother they are more likely to have atleast one child. There could be some explaination for this where the single mother thought that she could not be able to provide for multiple children and chose not to keep them. 
 
 ```{r, fig.height = 3, fig.width = 3.6,echo=FALSE}
-qplot(factor(Marital), BirthWeightOz, data = NCbirths1, geom = "boxplot")
+qplot(factor(marital_cat), BirthWeightOz, data = NCbirths1, geom = "boxplot")
 tapply(NCbirths1$BirthWeightOz, NCbirths1$Marital, FUN = mean)
 qplot(factor(Plural), BirthWeightOz, data = NCbirths1, geom = "boxplot")
 tapply(NCbirths1$BirthWeightOz, NCbirths1$Plural, FUN = mean)
