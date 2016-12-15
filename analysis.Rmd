@@ -71,13 +71,13 @@ Using R, we were able to find 41 observations where at least 1 variable had miss
 The plots below provide some basic visualiazations of the data collected, to gain some familiarity with the dataset. 
 
 
-```{r, fig.height=3, fig.width= 3.6, warning=FALSE, echo=FALSE}
+```{r, fig.height=2.8, fig.width= 3.6, warning=FALSE, echo=FALSE}
 ggplot(NCbirths1, aes(MomAge, Weeks, color=factor(MomRace))) + geom_point(size=.7) + geom_smooth(method="lm", se=FALSE)+ labs(color="Race")
 
 qplot(Gained, data = NCbirths1, geom = "density", color = factor(Marital)) + ylab("") + labs(color="Marital")
 ```
 
-```{r fig.height = 4, fig.width = 3.6, echo=FALSE}
+```{r fig.height = 2.2, fig.width = 3.6, echo=FALSE}
 ggplot(NCbirths1, aes(MomAge, Marital, color = RaceMom)) + geom_point() + labs(color = "Race")
 
 ggplot(NCbirths1, aes(MomAge, Gained, color=factor(Marital))) + geom_point(size=0.7) + labs(color="Marital")
