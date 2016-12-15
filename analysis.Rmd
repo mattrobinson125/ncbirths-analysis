@@ -72,7 +72,8 @@ The plots below provide some basic visualiazations of the data collected, to gai
 
 
 ```{r, fig.height=2.8, fig.width= 3.6, warning=FALSE, echo=FALSE}
-ggplot(NCbirths1, aes(MomAge, Weeks, color=factor(MomRace))) + geom_point(size=.7) + geom_smooth(method="lm", se=FALSE)+ labs(color="Race")
+#ggplot(NCbirths1, aes(MomAge, Weeks, color=factor(MomRace))) + geom_point(size=.7) + geom_smooth(method="lm", se=FALSE)+ labs(color="Race")
+qplot(marital_cat, BirthWeightOz, data = NCbirths1, geom = "boxplot") + xlab("Marital Status")
 
 qplot(Gained, data = NCbirths1, geom = "density", color = factor(marital_cat)) + ylab("") + labs(color="Marital")
 ```
