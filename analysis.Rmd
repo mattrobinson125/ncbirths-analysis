@@ -351,14 +351,12 @@ For this segment, we are looking at the relationship between marital the weight 
 ```{r}
 multi <- factor(NCbirths1$Plural, levels = c(1,2,3), labels = c("single", "twins", "triplets"))
 married <- factor(NCbirths1$Marital, levels= c(1,2), labels = c("Married", "Not Married"))
+marriedLM <- lm(married ~ NCbirths1$BirthWeightOz, multi)
 table(married, multi)
 ```
 Before we look at the other data sets. We should see what the most common multi births and marital status are. As we can see the most common form and marital status and birth is the single birth and married mother. The rarest form are the triplets who only have 4 occurances in the entire data set.  
 
 ```{r,fig.height = 3, fig.width = 3.6,echo=FALSE}
-multiCut <- cut(NCbirths1$Plural, breaks = c(0,1,2,3), labels = c("single", "twins", "triplets"))
-table(multiCut)
-married <- factor(NCbirths1$Marital, levels = c(1,2), labels = c("Married", "Non-Married"))
 ggplot(NCbirths1, aes(Plural, BirthWeightOz, color=factor(marital_cat))) + geom_point() + geom_smooth(method = 'lm',span = 3) + labs(color="Marital")
 tapply(NCbirths1$Plural, NCbirths1$Marital, FUN = sum)
 ```
@@ -366,10 +364,10 @@ tapply(NCbirths1$Plural, NCbirths1$Marital, FUN = sum)
 Looking at the graph from above, we can see that there is a trend with BirthWeightOz that is being affected by Marital status of the mother and multiple births. By having a linear model, we can visualize the trend of the data which happens to be a negative trend with the married mother having a higher average birth weight than a single mother. We also note that being a married mother, the chances of having multiple children during a single birth is higher than a single mother they are more likely to have atleast one child. There could be some explaination for this where the single mother thought that she could not be able to provide for multiple children and chose not to keep them. 
 
 ```{r, fig.height = 2, fig.width = 2.5,echo=FALSE}
-qplot(factor(marital_cat), BirthWeightOz, data = NCbirths1, geom = "boxplot")
-tapply(NCbirths1$BirthWeightOz, NCbirths1$Marital, FUN = mean)
-qplot(factor(Plural), BirthWeightOz, data = NCbirths1, geom = "boxplot")
-tapply(NCbirths1$BirthWeightOz, NCbirths1$Plural, FUN = mean)
+qplot(factor(marital_cat), BirthWeightOz, data = NCbirths1, geom = "boxplot", color = factor(multi))
+tapply(NCbirths1$BirthWeightOz, married, FUN = mean)
+qplot(factor(Plural), BirthWeightOz, data = NCbirths1, geom = "boxplot" , color=factor(Marital))
+tapply(NCbirths1$BirthWeightOz, multi, FUN = mean)
 
 ```
 Looking at the box and whisker plots from above, we can see the relationship between the weight of the child at birth and the marital status of the mother. This data was inline with our third hypothesis where being married would have a positive affect on the average weight of the child at birth. Looking at the initial box plot we can see that the average weight of the child is 119.1oz for married mothers and 111.38oz for single mothers. We can also see from the second plot where with each subsequent child, the average weight of the children are much lower. Looking at the average weight of each children for multiple births, we can see a significant drop in average weight from 117.85oz for single children to 76.91oz for twins and 62.5oz for triples. There could be multiple explanations for why this is the case from our data. One could argue that we do not have enough data due to the vast majority of births end in a single child where twins are rare and having triplets are even rarer. One can also believe that with each extra child during the same birth, the mother may not have eaten enough nutrients for each baby.    
@@ -473,6 +471,7 @@ It should be noted that there are many missing values throughout the tables and 
 
 Additionally, it is easy and tempting to draw broad conclusions based on statistical analysis and tests like those applied earlier. However, it is important to remember that observing a trend does not allow mathematicians to draw conclusions about why or how those patterns emerge. For example, one might note that unmarried women tend to have children at a younger age than married women within the same racial subset- however, no conclusions should be drawn based on this observaton, especially at such initial stages of data analysis. There is also insufficient data to say that the observations made here are significant, or could apply to a larger population (the data here represents a convenience sample, and does not accurately depict the entire population). 
 
+Given the amount of data that we had on plural births, we cannot draw any conclusions between the relationship of BirthWeightOz and Multiple Births given the marital status of the mother. Even though the data shows a trend that a non-married mother will birth a single child that has a lower weight average compared to that of a married mother, which is inline with our initial hypothesis. There is simply not enough data to say the same about twins or even triplets. The lack of data makes it difficult to draw any concrete conclusions past a single child birth.  
 Despite these shortfalls, this data certainly tells an intriguing story. Interactions among variables related to the biology and social character of pregnant women provides unique insight into the complexity of childbirth, and the wide variety of factors that influence its unfolding. 
 
 With any dataset, regardless of how many observations we have or amount of missingness there is in it, it's always possible to tell a story from the data we do have. Even if hypotheses are drawn that are not supported at the end, trends can always be found in various ways from testing simple comparisons in the data. With the NCbirths dataset, we often found trends where we weren't expecting them, and it showed us that with even more observations and more variables, we would be able to tell even more stories from analyses we chose to look at in our project.
